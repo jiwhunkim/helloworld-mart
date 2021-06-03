@@ -2,33 +2,85 @@ package com.helloworld.domain.order
 
 import com.helloworld.config.DataSourceConfig
 import com.helloworld.config.audit.AuditorAwareImpl
+import com.helloworld.domain.product.*
 import com.helloworld.rds.config.RdsConfig
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
+import org.hibernate.Hibernate
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.transaction.annotation.Propagation
+import org.springframework.transaction.annotation.Transactional
+import java.math.BigDecimal
 import javax.persistence.EntityManager
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(RdsConfig::class, DataSourceConfig::class, AuditorAwareImpl::class)
 @ActiveProfiles("test")
-class OrderSpec(entityManager: EntityManager, orderRepository: OrderRepository) : DescribeSpec() {
+class OrderSpec(
+    entityManager: EntityManager,
+    productRepository: ProductRepository,
+    productOptionRepository: ProductOptionRepository,
+    skuRepository: SkuRepository,
+    sellerRepository: SellerRepository,
+    sellerProductRepository: SellerProductRepository,
+    orderRepository: OrderRepository
+) : DescribeSpec() {
     init {
         describe("create order test") {
             it("order") {
-                val order = OrderEntity()
+                val order = OrderEntity(accountId = 1L, orderLineItems = mutableListOf())
                 order.shouldNotBeNull()
-                order.orderLineItems.add(OrderLineItem())
-                order.orderLineItems.add(OrderLineItem())
-                order.orderLineItems.add(OrderLineItem())
                 var result = orderRepository.save(order)
                 entityManager.clear()
                 var found = orderRepository.findById(result.id)
                 println(found.get().id)
-                println(found.get().orderLineItems.size)
+            }
+
+            it("order with orderLineItems") {
+                val product = Product(code = "code", name = "name", description = "description")
+                productRepository.save(product)
+                val sku = Sku(code = "code", name = "sku", description = "description", BigDecimal(1000))
+                skuRepository.save(sku)
+                val seller = Seller(name = "name")
+                sellerRepository.save(seller)
+                val sellerProduct =
+                    SellerProduct(
+                        code = "code",
+                        name = "name",
+                        description = "description",
+                        seller = seller,
+                        sku = sku,
+                        salesAmount = BigDecimal(1000)
+                    )
+                sellerProductRepository.save(sellerProduct)
+
+                val productOption =
+                    ProductOption(
+                        code = "code",
+                        name = "name",
+                        description = "description",
+                        sellerProduct = sellerProduct
+                    )
+                productOptionRepository.save(productOption)
+
+                val orderLineItem = OrderLineItem(
+                    product = product,
+                    productOption = productOption,
+                    sellerProduct = sellerProduct,
+                    quantity = 1
+                )
+                val order = OrderEntity(accountId = 1L, orderLineItems = listOf(orderLineItem))
+                var save = orderRepository.saveAndFlush(order)
+                entityManager.clear()
+                val result = orderRepository.findById(save.id)
+                result.get().totalAmount.setScale(2).shouldBe(BigDecimal(1000).setScale(2))
+                result.get().orderLineItems.size.shouldBe(1)
             }
         }
     }

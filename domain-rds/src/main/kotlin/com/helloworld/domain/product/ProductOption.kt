@@ -26,6 +26,7 @@ class ProductOption(
     @ManyToOne
     @JoinColumn(
         name = "seller_product_id",
+        nullable = false,
         insertable = true,
         updatable = true,
         foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT)

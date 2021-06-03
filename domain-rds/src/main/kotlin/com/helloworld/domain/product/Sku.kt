@@ -1,5 +1,6 @@
 package com.helloworld.domain.product
 
+import java.math.BigDecimal
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -9,7 +10,8 @@ import javax.persistence.Id
 class Sku(
     code: String,
     name: String,
-    description: String
+    description: String,
+    supplyPrice: BigDecimal
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +25,8 @@ class Sku(
         protected set
 
     var description: String = description
+        protected set
+
+    var supplyPrice: BigDecimal = supplyPrice
         protected set
 }

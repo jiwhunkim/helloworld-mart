@@ -1,6 +1,5 @@
 package com.helloworld.domain
 
-import com.helloworld.domain.product.SellerProduct
 import com.helloworld.domain.product.SellerProductRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

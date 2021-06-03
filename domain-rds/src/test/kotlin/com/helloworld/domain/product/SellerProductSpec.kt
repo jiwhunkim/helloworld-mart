@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
+import java.math.BigDecimal
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -26,14 +27,15 @@ class SellerProductSpec(
             it("create") {
                 var seller = Seller(name = "seller")
                 sellerRepository.save(seller)
-                var sku = Sku(code = "code", name = "sku", description = "description")
+                var sku = Sku(code = "code", name = "sku", description = "description", BigDecimal(1000))
                 skuRepository.save(sku)
                 var sellerProduct = SellerProduct(
                     code = "code",
                     name = "name",
                     description = "description",
                     seller = seller,
-                    sku = sku
+                    sku = sku,
+                    salesAmount = BigDecimal(1000)
                 )
                 var result = sellerProductRepository.save(sellerProduct)
                 println(result.id)

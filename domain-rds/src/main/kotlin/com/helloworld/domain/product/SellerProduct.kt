@@ -1,7 +1,6 @@
 package com.helloworld.domain.product
 
-import org.springframework.context.event.EventListener
-import org.springframework.data.domain.AbstractAggregateRoot
+import java.math.BigDecimal
 import javax.persistence.*
 
 
@@ -11,8 +10,10 @@ class SellerProduct(
     name: String,
     description: String,
     seller: Seller,
-    sku: Sku
-): BaseEntity() {
+    sku: Sku,
+    salesAmount: BigDecimal,
+    discountAmount: BigDecimal = BigDecimal.ZERO,
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L
@@ -25,6 +26,15 @@ class SellerProduct(
         protected set
 
     var description: String = description
+        protected set
+
+    var salesAmount: BigDecimal = salesAmount
+        protected set
+
+    var discountAmount: BigDecimal = discountAmount
+        protected set
+
+    var amount: BigDecimal = salesAmount.minus(discountAmount)
         protected set
 
     @ManyToOne
