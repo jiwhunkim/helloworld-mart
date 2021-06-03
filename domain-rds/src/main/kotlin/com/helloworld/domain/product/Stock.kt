@@ -1,12 +1,13 @@
 package com.helloworld.domain.product
 
+import org.hibernate.annotations.DynamicUpdate
 import org.springframework.data.domain.AbstractAggregateRoot
 import org.springframework.data.domain.AfterDomainEventPublication
 import javax.persistence.*
 
 @Entity(name = "stocks")
-class Stock(quantity: Int = 0, reservedQuantity: Int = 0, sellerProduct: SellerProduct)
-    : AbstractAggregateRoot<Stock>() {
+@DynamicUpdate
+class Stock(quantity: Int = 0, reservedQuantity: Int = 0, sellerProduct: SellerProduct) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L

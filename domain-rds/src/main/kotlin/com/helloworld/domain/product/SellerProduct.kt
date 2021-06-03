@@ -12,7 +12,7 @@ class SellerProduct(
     description: String,
     seller: Seller,
     sku: Sku
-) {
+): BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L

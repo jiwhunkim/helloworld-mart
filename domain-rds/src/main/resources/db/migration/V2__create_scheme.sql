@@ -50,6 +50,10 @@ create table seller_products
     code        varchar(128),
     name        varchar(255),
     description varchar(255),
+    created_at DATETIME(6) DEFAULT now(6) not null,
+    created_by VARCHAR(128) NOT NULL DEFAULT '' not null,
+    updated_at DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) not null,
+    updated_by VARCHAR(128) NOT NULL DEFAULT '' not null,
     primary key (id)
 ) engine=InnoDB;
 
@@ -70,5 +74,9 @@ create table stocks
     seller_product_id bigint  not null,
     quantity          integer not null,
     reserved_quantity integer not null,
+    created_at DATETIME(6) DEFAULT now(6) not null,
+    created_by VARCHAR(128) NOT NULL DEFAULT '' not null,
+    updated_at DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) not null,
+    updated_by VARCHAR(128) NOT NULL DEFAULT '' not null,
     primary key (id)
 ) engine=InnoDB

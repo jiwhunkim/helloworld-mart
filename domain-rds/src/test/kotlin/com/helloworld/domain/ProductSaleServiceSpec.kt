@@ -16,10 +16,10 @@ import org.springframework.transaction.annotation.Transactional
 import javax.persistence.EntityManager
 
 @DataJpaTest
+@Transactional(propagation = Propagation.NOT_SUPPORTED)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(RdsConfig::class, DataSourceConfig::class, AuditorAwareImpl::class, ProductSaleService::class)
 @ActiveProfiles("test")
-@Transactional(propagation = Propagation.NOT_SUPPORTED)
 class ProductSaleServiceSpec(
     val entityManager: EntityManager,
     val skuRepository: SkuRepository,
@@ -65,7 +65,6 @@ class ProductSaleServiceSpec(
                     )
                     sellerProduct.stock.up(10)
                     val item = sellerProductRepository.save(sellerProduct)
-                    entityManager.clear()
                     productSaleService.sale(sellerProductId = item.id, quantity = 1)
                     entityManager.clear()
                     sellerProductRepository.findById(item.id).get().stock.quantity.shouldBe(9)
