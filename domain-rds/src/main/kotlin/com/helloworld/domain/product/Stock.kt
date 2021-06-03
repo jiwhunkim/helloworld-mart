@@ -20,7 +20,7 @@ class Stock(quantity: Int = 0, reservedQuantity: Int = 0, sellerProduct: SellerP
         protected set
 
     @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "sellerProductId", foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "seller_product_id", foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     var sellerProduct: SellerProduct = sellerProduct
 
     fun availableQuantity() = quantity - reservedQuantity

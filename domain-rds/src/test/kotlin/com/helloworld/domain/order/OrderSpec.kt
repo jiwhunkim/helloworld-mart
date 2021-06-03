@@ -5,16 +5,13 @@ import com.helloworld.config.audit.AuditorAwareImpl
 import com.helloworld.domain.product.*
 import com.helloworld.rds.config.RdsConfig
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.comparables.shouldBeEqualComparingTo
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import org.hibernate.Hibernate
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.transaction.annotation.Propagation
-import org.springframework.transaction.annotation.Transactional
 import java.math.BigDecimal
 import javax.persistence.EntityManager
 
@@ -43,12 +40,11 @@ class OrderSpec(
             }
 
             it("order with orderLineItems") {
-                val product = Product(code = "code", name = "name", description = "description")
-                productRepository.save(product)
-                val sku = Sku(code = "code", name = "sku", description = "description", BigDecimal(1000))
-                skuRepository.save(sku)
-                val seller = Seller(name = "name")
-                sellerRepository.save(seller)
+                val product = productRepository.save(Product(code = "code", name = "name", description = "description"))
+                val sku =
+                    skuRepository.save(Sku(code = "code", name = "sku", description = "description", BigDecimal(1000)))
+                val seller = sellerRepository.save(Seller(name = "name"))
+
                 val sellerProduct =
                     SellerProduct(
                         code = "code",
@@ -79,7 +75,7 @@ class OrderSpec(
                 var save = orderRepository.saveAndFlush(order)
                 entityManager.clear()
                 val result = orderRepository.findById(save.id)
-                result.get().totalAmount.setScale(2).shouldBe(BigDecimal(1000).setScale(2))
+                result.get().totalAmount.shouldBeEqualComparingTo(BigDecimal(1000))
                 result.get().orderLineItems.size.shouldBe(1)
             }
         }

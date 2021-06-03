@@ -39,7 +39,7 @@ class SellerProduct(
 
     @ManyToOne
     @JoinColumn(
-        name = "sellerId",
+        name = "seller_id",
         insertable = true,
         updatable = true,
         foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT)
@@ -49,7 +49,7 @@ class SellerProduct(
 
     @OneToOne
     @JoinColumn(
-        name = "skuId",
+        name = "sku_id",
         insertable = true,
         updatable = true,
         foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT)

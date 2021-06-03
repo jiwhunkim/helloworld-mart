@@ -19,7 +19,7 @@ class OrderEntity(
         protected set
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    @JoinColumn(name = "orderId", foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "order_id", foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     var orderLineItems: MutableList<OrderLineItem> = orderLineItems.toMutableList()
 
     var totalSalesAmount: BigDecimal = orderLineItems.sumOf { it.totalSalesAmount }

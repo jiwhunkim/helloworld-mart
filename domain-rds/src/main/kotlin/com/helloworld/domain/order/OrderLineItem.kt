@@ -24,11 +24,19 @@ class OrderLineItem(
     var product: Product = product
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_option_id", nullable = false, foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(
+        name = "product_option_id",
+        nullable = false,
+        foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT)
+    )
     var productOption: ProductOption = productOption
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seller_product_id", nullable = false, foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(
+        name = "seller_product_id",
+        nullable = false,
+        foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT)
+    )
     var sellerProduct: SellerProduct = sellerProduct
 
     var quantity: Int = quantity
@@ -39,8 +47,8 @@ class OrderLineItem(
 
     var amount: BigDecimal = sellerProduct.amount
 
-    var totalSalesAmount = salesAmount.multiply(quantity.toBigDecimal())
-    var totalDiscountAmount = discountAmount.multiply(quantity.toBigDecimal())
-    var totalAmount = amount.multiply(quantity.toBigDecimal())
+    var totalSalesAmount: BigDecimal = salesAmount.multiply(quantity.toBigDecimal())
+    var totalDiscountAmount: BigDecimal = discountAmount.multiply(quantity.toBigDecimal())
+    var totalAmount: BigDecimal = amount.multiply(quantity.toBigDecimal())
 
 }
