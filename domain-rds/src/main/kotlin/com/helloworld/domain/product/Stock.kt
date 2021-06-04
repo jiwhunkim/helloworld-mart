@@ -1,8 +1,6 @@
 package com.helloworld.domain.product
 
 import org.hibernate.annotations.DynamicUpdate
-import org.springframework.data.domain.AbstractAggregateRoot
-import org.springframework.data.domain.AfterDomainEventPublication
 import javax.persistence.*
 
 @Entity(name = "stocks")
@@ -24,6 +22,10 @@ class Stock(quantity: Int = 0, reservedQuantity: Int = 0, sellerProduct: SellerP
     var sellerProduct: SellerProduct = sellerProduct
 
     fun availableQuantity() = quantity - reservedQuantity
+
+    fun ableSale(quantity: Int): Boolean {
+        return availableQuantity() >= quantity
+    }
 
     fun up(quantity: Int) {
         this.quantity += quantity

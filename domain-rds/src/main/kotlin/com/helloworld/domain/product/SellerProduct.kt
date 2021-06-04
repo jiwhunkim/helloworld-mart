@@ -60,4 +60,10 @@ class SellerProduct(
     @OneToOne(mappedBy = "sellerProduct", cascade = [CascadeType.ALL])
     var stock: Stock = Stock(quantity = 0, reservedQuantity = 0, this)
         protected set
+
+    fun checkSaleByQuantity(quantity: Int) {
+        if (!stock.ableSale(quantity)) {
+            throw RuntimeException("sellerProduct ${this.id} is not enough quantity")
+        }
+    }
 }

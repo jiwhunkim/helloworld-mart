@@ -12,9 +12,7 @@ class ProductSaleService(
     @Transactional
     fun sale(sellerProductId: Long, quantity: Int) {
         val sellerProduct = sellerProductRepository.findById(sellerProductId).orElseThrow { EntityNotFoundException() }
-        if (sellerProduct.stock.availableQuantity() <= quantity) {
-            throw RuntimeException("sellerProduct ${sellerProduct.id} is not enough quantity")
-        }
+        sellerProduct.checkSaleByQuantity(quantity)
         sellerProduct.stock.down(quantity)
     }
 }
