@@ -56,6 +56,10 @@ open class Cart(
             }
     }
 
+    fun removeCartLineItem(cartLineItem: CartLineItem) {
+        cartLineItems.firstOrNull { it == cartLineItem }?.let { cartLineItems.remove(it) }
+    }
+
     companion object {
         fun getId(accountId: Long): String {
             val sb: StringBuilder = StringBuilder()
