@@ -8,21 +8,57 @@ import java.io.Serializable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
-import javax.annotation.Generated
 
-@RedisHash(timeToLive = 60 * 60 * 24) // 24 hour
+
+@RedisHash(timeToLive = (60 * 60 * 24) as Long) // 24 hour
 open class Cart(
-    accountId: Long
+    accountId: Long,
+    cartLineItems: List<CartLineItem> = emptyList()
 ) : Serializable {
     @Id
     var id: String = getId(accountId)
-        @Generated
         protected set
 
     @Indexed
     var accountId: Long = accountId
-        @Generated
         protected set
+
+    var cartLineItems: MutableList<CartLineItem> = mutableListOf()
+        protected set
+
+    val salesAmount get() = cartLineItems.sumOf { it.salesAmount }
+    val discountAmount get() = cartLineItems.sumOf { it.discountAmount }
+    val amount get() = cartLineItems.sumOf { it.amount }
+
+    init {
+        cartLineItems.distinct().forEachIndexed { index, item ->
+            this.cartLineItems.add(
+                CartLineItem(
+                    id = CartLineItem.createId(cartId = this.id, index = index),
+                    cartLineItem = item
+                )
+            )
+        }
+    }
+
+    fun addCartLineItem(cartLineItem: CartLineItem) {
+        cartLineItems.firstOrNull { it == cartLineItem }
+            ?.let {
+                it.quantity = cartLineItem.quantity
+            }
+            ?: run {
+                cartLineItems.add(
+                    CartLineItem(
+                        id = CartLineItem.createId(cartId = this.id, index = cartLineItems.size),
+                        cartLineItem = cartLineItem
+                    )
+                )
+            }
+    }
+
+    fun removeCartLineItem(cartLineItem: CartLineItem) {
+        cartLineItems.firstOrNull { it == cartLineItem }?.let { cartLineItems.remove(it) }
+    }
 
     companion object {
         fun getId(accountId: Long): String {

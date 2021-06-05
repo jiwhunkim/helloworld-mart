@@ -1,8 +1,10 @@
 package com.helloworld
 
 import io.kotest.core.listeners.ProjectListener
+import io.kotest.core.spec.AutoScan
 import org.testcontainers.containers.GenericContainer
 
+@AutoScan
 object RedisProjectListener : ProjectListener {
     val redisContainer = GenericContainer<Nothing>("redis:latest").apply {
         withExposedPorts(6379)

@@ -1,9 +1,9 @@
 package com.helloworld.domain.cart
 
+import com.helloworld.ProjectConfig
 import com.helloworld.config.redis.config.RedisConfig
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.comparables.shouldBeEqualComparingTo
 import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
@@ -12,16 +12,10 @@ import java.math.BigDecimal
 @DataRedisTest
 @Import(RedisConfig::class)
 @ActiveProfiles("test")
-class CartSpec(cartRepository: CartRepository) : DescribeSpec() {
+class CartLineItemSpec : DescribeSpec() {
     init {
-        describe("cart") {
-            it("create cart test") {
-                val cart = Cart(1L, emptyList())
-                cart.id.shouldNotBe(null)
-                cart.accountId.shouldBe(1L)
-            }
-
-            it("create cart with cartLineItem") {
+        describe("cartLineItem") {
+            it("create cartLineItem test") {
                 val cartProduct = CartProduct(productId = 1L, productName = "productName")
                 val cartProductOption = CartProductOption(
                     productOptionId = 1L,
@@ -42,15 +36,9 @@ class CartSpec(cartRepository: CartRepository) : DescribeSpec() {
                     cartProductOption = cartProductOption,
                     cartSellerProduct = cartSellerProduct
                 )
-                val cartLineItem2 = CartLineItem(
-                    cartProduct = cartProduct,
-                    cartProductOption = cartProductOption,
-                    cartSellerProduct = cartSellerProduct
-                )
-
-                val cart = Cart(1L, listOf(cartLineItem, cartLineItem2))
-                val result = cartRepository.save(cart)
-                result.shouldNotBe(null)
+                cartLineItem.amount.shouldBeEqualComparingTo(BigDecimal(1000))
+                cartLineItem.quantity = 2
+                cartLineItem.amount.shouldBeEqualComparingTo(BigDecimal(2000))
             }
         }
     }
