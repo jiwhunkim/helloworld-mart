@@ -4,6 +4,7 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
+    id("jacoco")
 
     application
 }
@@ -31,8 +32,20 @@ allOpen {
     annotation("javax.persistence.MappedSuperclass")
 }
 
+jacoco {
+    toolVersion = "0.8.7"
+}
+
 val jar: Jar by tasks
 val bootJar: org.springframework.boot.gradle.tasks.bundling.BootJar by tasks
 
 bootJar.enabled = false
 jar.enabled = true
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
+}
