@@ -3,7 +3,6 @@ package com.helloworld.domain.product
 import com.helloworld.config.DataSourceConfig
 import com.helloworld.config.audit.AuditorAwareImpl
 import com.helloworld.domain.ProductSaleService
-import com.helloworld.domain.product.*
 import com.helloworld.rds.config.RdsConfig
 import io.kotest.core.spec.style.DescribeSpec
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase

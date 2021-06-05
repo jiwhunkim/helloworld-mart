@@ -1,5 +1,6 @@
 package com.helloworld.domain.product
 
+import java.math.BigDecimal
 import javax.persistence.*
 
 @Entity(name = "product_options")
@@ -7,7 +8,10 @@ class ProductOption(
     code: String,
     name: String,
     description: String,
-    sellerProduct: SellerProduct
+    sellerProduct: SellerProduct,
+    salesAmount: BigDecimal,
+    discountAmount: BigDecimal,
+    amount: BigDecimal
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +36,12 @@ class ProductOption(
         foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT)
     )
     var sellerProduct: SellerProduct = sellerProduct
+        protected set
+
+    var salesAmount: BigDecimal = salesAmount
+        protected set
+    var discountAmount: BigDecimal = discountAmount
+        protected set
+    var amount: BigDecimal = amount
         protected set
 }

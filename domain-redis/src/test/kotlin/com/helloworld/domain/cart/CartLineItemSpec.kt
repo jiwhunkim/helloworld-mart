@@ -1,6 +1,5 @@
 package com.helloworld.domain.cart
 
-import com.helloworld.ProjectConfig
 import com.helloworld.config.redis.config.RedisConfig
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.comparables.shouldBeEqualComparingTo

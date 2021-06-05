@@ -56,11 +56,15 @@ subprojects {
 
 }
 
-var kotestProjects = listOf(project("domain-redis"),
-    project("domain-rds")
+var kotestProjects = listOf(
+    project("domain-redis"),
+    project("domain-rds"),
+    project("domain")
 )
-var testcontainerProjects = listOf(project("domain-redis"),
-    project("domain-rds")
+var testcontainerProjects = listOf(
+    project("domain-redis"),
+    project("domain-rds"),
+    project("domain")
 )
 
 object kotest {

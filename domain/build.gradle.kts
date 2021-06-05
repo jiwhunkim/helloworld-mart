@@ -14,4 +14,5 @@ dependencies {
 
     implementation(project(":domain-redis"))
     implementation(project(":domain-rds"))
+    testImplementation(project(":domain-rds"))
 }

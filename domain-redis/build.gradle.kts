@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.backend.wasm.lower.excludeDeclarationsFromCodegen
-
 plugins {
     id("org.springframework.boot")
     id("io.spring.dependency-management")

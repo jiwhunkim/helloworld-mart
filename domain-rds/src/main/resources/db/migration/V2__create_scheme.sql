@@ -53,17 +53,21 @@ create table products
 drop table if exists product_options;
 create table product_options
 (
-    id                bigint       not null auto_increment,
-    seller_product_id bigint       not null,
+    id                bigint         not null auto_increment,
+    seller_product_id bigint         not null,
     code              varchar(128),
     name              varchar(255),
     description       varchar(255),
+    sales_amount      decimal(19, 2) not null,
+    discount_amount   decimal(19, 2) not null,
+    amount            decimal(19, 2) not null,
     created_at        DATETIME(6) DEFAULT now(6) not null,
-    created_by        VARCHAR(128) NOT NULL DEFAULT '',
+    created_by        VARCHAR(128)   NOT NULL DEFAULT '',
     updated_at        DATETIME(6) DEFAULT CURRENT_TIMESTAMP (6) ON UPDATE CURRENT_TIMESTAMP (6) not null,
-    updated_by        VARCHAR(128) NOT NULL DEFAULT '',
+    updated_by        VARCHAR(128)   NOT NULL DEFAULT '',
     primary key (id)
 ) engine=InnoDB;
+
 drop table if exists sellers;
 create table sellers
 (

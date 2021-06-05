@@ -61,7 +61,10 @@ class OrderSpec(
                         code = "code",
                         name = "name",
                         description = "description",
-                        sellerProduct = sellerProduct
+                        sellerProduct = sellerProduct,
+                        salesAmount = BigDecimal(1000),
+                        discountAmount = BigDecimal(0),
+                        amount = BigDecimal(1000)
                     )
                 productOptionRepository.save(productOption)
 
