@@ -36,3 +36,17 @@ tasks.test {
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
 }
+
+val testConfig = configurations.create("testArtifacts") {
+    extendsFrom(configurations["testImplementation"])
+}
+
+tasks.register("testJar", Jar::class.java) {
+    dependsOn("testClasses")
+    archiveClassifier.set("test")
+    from(sourceSets["test"].output)
+}
+
+artifacts {
+    add("testArtifacts", tasks.named<Jar>("testJar") )
+}

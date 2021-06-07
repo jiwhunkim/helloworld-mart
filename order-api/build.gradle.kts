@@ -12,7 +12,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
 
     implementation(project(":domain-redis"))
+    testImplementation(project(":domain-redis", "testArtifacts"))
     implementation(project(":domain-rds"))
+    testImplementation(project(":domain-rds", "testArtifacts"))
     implementation(project(":domain"))
     implementation(project(":domain-mapper"))
 }

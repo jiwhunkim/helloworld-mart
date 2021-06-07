@@ -15,7 +15,7 @@ class CartApplicationService(
     private val domainProductQueryService: DomainProductQueryService
 ) {
     fun create(accountId: Long, createCartDto: CreateCartDto) {
-        check(accountId == 0L) { IllegalArgumentException("not accepted account id") }
+        check(accountId != 0L) { IllegalArgumentException("not accepted account id") }
         domainCartQueryService.queryByAccountId(accountId).ifPresent { throw RuntimeException("already exist cart") }
 
         val product = domainProductQueryService.findProductById(createCartDto.productId)

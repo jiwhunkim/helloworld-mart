@@ -14,8 +14,9 @@ dependencies {
     }
 
     implementation(project(":domain-redis"))
+    testImplementation(project(":domain-redis", "testArtifacts"))
     implementation(project(":domain-rds"))
-    testImplementation(project(":domain-rds"))
+    testImplementation(project(":domain-rds", "testArtifacts"))
 }
 
 jacoco {
