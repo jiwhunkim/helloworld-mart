@@ -18,6 +18,6 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":domain-mapper"))
 
-    implementation("io.springfox:springfox-boot-starter:3.0.0")
-    implementation("io.springfox:springfox-swagger-ui:3.0.0")
+    implementation("org.springdoc:springdoc-openapi-ui:1.5.9")
+    implementation("org.springdoc:springdoc-openapi-kotlin:1.5.9")
 }
