@@ -1,4 +1,20 @@
-POST http://localhost:8080/api/cart
-Content-Type: application/json
+POST http://localhost:8080/order/carts
+Authorization: Bearer d02683e3-9b4e-4a4a-bc46-ff76e408ba09
+Authenticated: 1612162831279222
+Content-Type: application/json; charset=utf-8
+Media-Type: application/vnd.helloworld.api.v1+json
+Channel-Type: HelloWorld
+Accept-Language: ko-Kr
+Device-Id: testdeviceid
+Os-Code: android
+Os-Version: 1.0.0
+App-Version: 1.0.0
+
+{
+  "productId": 1,
+  "productOptionId": 1,
+  "sellerProductId": 1,
+  "quantity": 1
+}
 
 ###

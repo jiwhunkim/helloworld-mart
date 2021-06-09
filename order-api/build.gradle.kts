@@ -17,4 +17,7 @@ dependencies {
     testImplementation(project(":domain-rds", "testArtifacts"))
     implementation(project(":domain"))
     implementation(project(":domain-mapper"))
+
+    implementation("io.springfox:springfox-boot-starter:3.0.0")
+    implementation("io.springfox:springfox-swagger-ui:3.0.0")
 }

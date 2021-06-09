@@ -1,4 +1,4 @@
-package com.helloworld.cart
+package com.helloworld.cart.service
 
 import com.helloworld.cart.data.CreateCartDto
 import com.helloworld.data.cart.CartDto
@@ -7,6 +7,7 @@ import com.helloworld.domain.cart.Cart
 import com.helloworld.domain.cart.CartLineItem
 import com.helloworld.domain.cart.DomainCartCommandService
 import com.helloworld.domain.cart.DomainCartQueryService
+import com.helloworld.domain.common.data.User
 import com.helloworld.domain.product.DomainProductQueryService
 import org.springframework.stereotype.Service
 
@@ -17,14 +18,14 @@ class CartApplicationService(
     private val domainCartCommandService: DomainCartCommandService,
     private val domainProductQueryService: DomainProductQueryService
 ) {
-    fun create(accountId: Long, createCartDto: CreateCartDto): CartDto {
-        require(accountId != 0L) { "not accepted account id" }
+    fun create(user: User, createCartDto: CreateCartDto): CartDto {
+        require(user.isMember) { "not accepted account id" }
 
-        val saved = domainCartQueryService.queryByAccountId(accountId)
+        val saved = domainCartQueryService.queryByAccountId(user.accountId)
         require(saved.isEmpty) { "already exist cart" }
 
         val cartLineItem = getCartLineItem(createCartDto)
-        val cart = Cart(accountId = accountId, listOf(cartLineItem))
+        val cart = Cart(accountId = user.accountId, listOf(cartLineItem))
         val result = domainCartCommandService.save(cart)
         return cartMapStructMapper.convert(result)!!
     }
