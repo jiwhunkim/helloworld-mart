@@ -5,8 +5,10 @@ import com.helloworld.cart.data.CreateCartDto
 import com.helloworld.config.audit.AuditorAwareImpl
 import com.helloworld.domain.product.*
 import com.helloworld.rds.config.RdsConfig
+import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
@@ -63,6 +65,22 @@ class CartApplicationServiceSpec(
                     )
                     val result = cartApplicationService.create(1L, createCartDto)
                     result.shouldNotBeNull()
+                }
+            }
+
+            context("with not accepted accountId") {
+                it("throw exception") {
+                    val createCartDto = CreateCartDto(
+                        productId = product.id,
+                        productOptionId = productOption.id,
+                        sellerProductId = sellerProduct.id,
+                        1
+                    )
+                    val exception = shouldThrowExactly<IllegalArgumentException> {
+                        cartApplicationService.create(0L, createCartDto)
+                    }
+                    exception.message.shouldBe("not accepted account id")
+
                 }
             }
         }
