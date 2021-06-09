@@ -2,42 +2,67 @@ package com.helloworld.cart
 
 import com.helloworld.OrderApplication
 import com.helloworld.cart.data.CreateCartDto
-import com.helloworld.config.DataSourceConfig
 import com.helloworld.config.audit.AuditorAwareImpl
-import com.helloworld.domain.product.DomainProductQueryService
-import com.helloworld.domain.product.Product
+import com.helloworld.domain.product.*
 import com.helloworld.rds.config.RdsConfig
-import com.ninjasquad.springmockk.MockkBean
-import io.kotest.core.listeners.TestListener
 import io.kotest.core.spec.style.DescribeSpec
-import io.mockk.every
+import io.kotest.matchers.nulls.shouldNotBeNull
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
+import java.math.BigDecimal
 
 @SpringBootTest(classes = [OrderApplication::class])
-@Import(RdsConfig::class, DataSourceConfig::class, AuditorAwareImpl::class)
+@Import(RdsConfig::class, AuditorAwareImpl::class)
 @ActiveProfiles(profiles = ["test"])
-class CartApplicationServiceSpec(cartApplicationService: CartApplicationService) : DescribeSpec() {
-    @MockkBean
-    private lateinit var domainProductQueryService: DomainProductQueryService
+class CartApplicationServiceSpec(
+    productRepository: ProductRepository,
+    productOptionRepository: ProductOptionRepository,
+    sellerRepository: SellerRepository,
+    sellerProductRepository: SellerProductRepository,
+    skuRepository: SkuRepository,
+    cartApplicationService: CartApplicationService
+) : DescribeSpec() {
 
     init {
         describe(".create") {
-            context("with proepry data") {
+            val product = productRepository.save(Product(code = "code", name = "name", description = "description"))
+            val sku =
+                skuRepository.save(Sku(code = "code", name = "sku", description = "description", BigDecimal(1000)))
+            val seller = sellerRepository.save(Seller(name = "name"))
+            val sellerProduct =
+                SellerProduct(
+                    code = "code",
+                    name = "name",
+                    description = "description",
+                    seller = seller,
+                    sku = sku,
+                    salesAmount = BigDecimal(1000)
+                )
+            sellerProductRepository.save(sellerProduct)
+
+            val productOption =
+                ProductOption(
+                    code = "code",
+                    name = "name",
+                    description = "description",
+                    sellerProduct = sellerProduct,
+                    salesAmount = BigDecimal(1000),
+                    discountAmount = BigDecimal(0),
+                    amount = BigDecimal(1000)
+                )
+            productOptionRepository.save(productOption)
+
+            context("with properly data") {
                 it("success") {
-                    every { domainProductQueryService.findProductById(any()) } returns Product(
-                        code = "code",
-                        name = "name",
-                        description = "description"
-                    )
                     val createCartDto = CreateCartDto(
-                        1L,
-                        1L,
-                        1L,
+                        productId = product.id,
+                        productOptionId = productOption.id,
+                        sellerProductId = sellerProduct.id,
                         1
                     )
-                    cartApplicationService.create(1L, createCartDto)
+                    val result = cartApplicationService.create(1L, createCartDto)
+                    result.shouldNotBeNull()
                 }
             }
         }
