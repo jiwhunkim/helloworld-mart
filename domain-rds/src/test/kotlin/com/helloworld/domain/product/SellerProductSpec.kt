@@ -1,6 +1,5 @@
 package com.helloworld.domain.product
 
-import com.helloworld.config.DataSourceConfig
 import com.helloworld.config.audit.AuditorAwareImpl
 import com.helloworld.domain.ProductSaleService
 import com.helloworld.rds.config.RdsConfig
@@ -13,7 +12,7 @@ import java.math.BigDecimal
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(RdsConfig::class, DataSourceConfig::class, AuditorAwareImpl::class, ProductSaleService::class)
+@Import(RdsConfig::class, AuditorAwareImpl::class, ProductSaleService::class)
 @ActiveProfiles("test")
 class SellerProductSpec(
     productSaleService: ProductSaleService,

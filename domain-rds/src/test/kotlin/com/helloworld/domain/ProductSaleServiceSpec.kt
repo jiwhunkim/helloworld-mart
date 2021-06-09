@@ -1,6 +1,5 @@
 package com.helloworld.domain
 
-import com.helloworld.config.DataSourceConfig
 import com.helloworld.config.audit.AuditorAwareImpl
 import com.helloworld.domain.product.*
 import com.helloworld.rds.config.RdsConfig
@@ -17,7 +16,7 @@ import javax.persistence.EntityManager
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(RdsConfig::class, DataSourceConfig::class, AuditorAwareImpl::class, ProductSaleService::class)
+@Import(RdsConfig::class, AuditorAwareImpl::class, ProductSaleService::class)
 @ActiveProfiles("test")
 @Transactional
 class ProductSaleServiceSpec(
