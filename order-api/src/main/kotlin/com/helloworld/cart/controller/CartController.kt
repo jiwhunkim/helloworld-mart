@@ -1,5 +1,6 @@
 package com.helloworld.cart.controller
 
+import com.helloworld.cart.controller.swagger.CartControllerSwaggerInterface
 import com.helloworld.cart.data.CreateCartDto
 import com.helloworld.cart.service.CartApplicationService
 import com.helloworld.config.HelloworldUser
@@ -20,43 +21,9 @@ import org.springframework.web.bind.annotation.RestController
     value = ["/order/carts"],
     produces = ["application/vnd.helloworld.api.v1+json; charset=UTF-8"]
 )
-class CartController(val cartApplicationService: CartApplicationService) {
+class CartController(val cartApplicationService: CartApplicationService): CartControllerSwaggerInterface {
     @PostMapping
-    @Parameters(
-        Parameter(
-            `in` = ParameterIn.HEADER,
-            name = "Authorization",
-            content = [Content(schema = Schema(type = "string"))]
-        ),
-        Parameter(
-            `in` = ParameterIn.HEADER,
-            name = "Accept-Language",
-            content = [Content(schema = Schema(type = "string"))]
-        ),
-        Parameter(
-            `in` = ParameterIn.HEADER,
-            name = "Channel-Type",
-            content = [Content(schema = Schema(type = "string"))]
-        ),
-        Parameter(`in` = ParameterIn.HEADER, name = "Os-Code", content = [Content(schema = Schema(type = "string"))]),
-        Parameter(
-            `in` = ParameterIn.HEADER,
-            name = "Os-Version",
-            content = [Content(schema = Schema(type = "string"))]
-        ),
-        Parameter(`in` = ParameterIn.HEADER, name = "Device-Id", content = [Content(schema = Schema(type = "string"))]),
-        Parameter(
-            `in` = ParameterIn.HEADER,
-            name = "Accept-Language",
-            content = [Content(schema = Schema(type = "string"))]
-        ),
-        Parameter(
-            `in` = ParameterIn.HEADER,
-            name = "App-Version",
-            content = [Content(schema = Schema(type = "string"))]
-        ),
-    )
-    fun create(
+    override fun create(
         @Parameter(hidden = true) @HelloworldUser user: User,
         @RequestBody createCartDto: CreateCartDto,
     ): CartDto {
