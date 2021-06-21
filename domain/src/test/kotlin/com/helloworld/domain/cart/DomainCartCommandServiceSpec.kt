@@ -1,45 +1,61 @@
 package com.helloworld.domain.cart
 
-import com.helloworld.DomainApplication
-import com.helloworld.config.audit.AuditorAwareImpl
-import com.helloworld.rds.config.RdsConfig
+import com.helloworld.domain.product.*
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.nulls.shouldBeNull
+import io.kotest.matchers.comparables.shouldBeEqualComparingTo
 import io.kotest.matchers.nulls.shouldNotBeNull
-import org.springframework.boot.test.context.SpringBootTest
+import io.mockk.mockk
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.math.BigDecimal
 
-@SpringBootTest(classes = [DomainApplication::class])
-@Import(RdsConfig::class, AuditorAwareImpl::class)
+@ExtendWith(SpringExtension::class)
+@Import(CartProductConverter::class, CartProductOptionConverter::class, CartSellerProductConverter::class)
 @ActiveProfiles("test")
-class DomainCartCommandServiceSpec(domainCartCommandService: DomainCartCommandService) : DescribeSpec() {
+class DomainCartCommandServiceSpec(
+    cartProductConverter: CartProductConverter,
+    cartProductOptionConverter: CartProductOptionConverter,
+    cartSellerProductConverter: CartSellerProductConverter
+) : DescribeSpec() {
     init {
-        describe(".placeCart") {
-            it("properly save") {
-                val cartProduct = CartProduct(productId = 1L, productName = "productName")
-                val cartProductOption = CartProductOption(
-                    productOptionId = 1L,
-                    productOptionName = "productOptionName",
-                    salesAmount = BigDecimal(1100),
-                    discountAmount = BigDecimal(100),
-                    amount = BigDecimal(1000)
+        val cartRepository: CartRepository = mockk()
+        val domainCartCommandService = DomainCartCommandService(
+            cartProductConverter,
+            cartProductOptionConverter,
+            cartSellerProductConverter,
+            cartRepository
+        )
+
+        describe(".createCartLineItem") {
+            it("make object") {
+                var seller = Seller(name = "seller")
+                var sku = Sku(code = "code", name = "sku", description = "description", BigDecimal(1000))
+                var sellerProduct = SellerProduct(
+                    code = "code",
+                    name = "name",
+                    description = "description",
+                    seller = seller,
+                    sku = sku,
+                    salesAmount = BigDecimal(1000)
                 )
-                val cartSellerProduct = CartSellerProduct(
-                    sellerProductId = 1L,
-                    sellerProductName = "sellerProductName",
-                    salesAmount = BigDecimal(1100),
-                    discountAmount = BigDecimal(100),
-                    amount = BigDecimal(1000)
+                var productOption = ProductOption(
+                    code = "code", name = "name", description = "description",
+                    sellerProduct = sellerProduct,
+                    salesAmount = BigDecimal.TEN,
+                    discountAmount = BigDecimal.ZERO,
+                    amount = BigDecimal.TEN
                 )
-                val cartLineItem = CartLineItem(
-                    cartProduct = cartProduct,
-                    cartProductOption = cartProductOption,
-                    cartSellerProduct = cartSellerProduct
+                val cartLineItem = domainCartCommandService.createCartLineItem(
+                    product = Product(code = "code", name = "name", description = "description"),
+                    productOption = productOption,
+                    sellerProduct = sellerProduct,
+                    quantity = 1
                 )
-                val result = domainCartCommandService.placeCart(1L, cartLineItem)
-                result.id.shouldNotBeNull()
+
+                cartLineItem.shouldNotBeNull()
+                cartLineItem.amount.shouldBeEqualComparingTo(sellerProduct.amount.multiply(BigDecimal(1)))
             }
         }
     }
