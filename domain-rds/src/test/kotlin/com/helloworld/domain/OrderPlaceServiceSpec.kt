@@ -1,6 +1,5 @@
 package com.helloworld.domain
 
-import com.helloworld.config.DataSourceConfig
 import com.helloworld.config.audit.AuditorAwareImpl
 import com.helloworld.domain.order.OrderRepository
 import com.helloworld.domain.product.*
@@ -17,7 +16,7 @@ import javax.persistence.EntityManager
 @DataJpaTest
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(RdsConfig::class, DataSourceConfig::class, AuditorAwareImpl::class, ProductSaleService::class)
+@Import(RdsConfig::class, AuditorAwareImpl::class, ProductSaleService::class)
 @ActiveProfiles("test")
 class OrderPlaceServiceSpec(
     entityManager: EntityManager,

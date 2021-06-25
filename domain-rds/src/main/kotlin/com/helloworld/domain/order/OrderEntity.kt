@@ -3,7 +3,6 @@ package com.helloworld.domain.order
 import com.helloworld.domain.product.BaseEntity
 import java.math.BigDecimal
 import javax.persistence.*
-import kotlin.jvm.Transient
 
 @Entity(name = "orders")
 class OrderEntity(

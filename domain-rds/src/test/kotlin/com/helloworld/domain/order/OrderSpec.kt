@@ -1,6 +1,5 @@
 package com.helloworld.domain.order
 
-import com.helloworld.config.DataSourceConfig
 import com.helloworld.config.audit.AuditorAwareImpl
 import com.helloworld.domain.product.*
 import com.helloworld.rds.config.RdsConfig
@@ -17,7 +16,7 @@ import javax.persistence.EntityManager
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(RdsConfig::class, DataSourceConfig::class, AuditorAwareImpl::class)
+@Import(RdsConfig::class, AuditorAwareImpl::class)
 @ActiveProfiles("test")
 class OrderSpec(
     entityManager: EntityManager,
@@ -61,7 +60,10 @@ class OrderSpec(
                         code = "code",
                         name = "name",
                         description = "description",
-                        sellerProduct = sellerProduct
+                        sellerProduct = sellerProduct,
+                        salesAmount = BigDecimal(1000),
+                        discountAmount = BigDecimal(0),
+                        amount = BigDecimal(1000)
                     )
                 productOptionRepository.save(productOption)
 

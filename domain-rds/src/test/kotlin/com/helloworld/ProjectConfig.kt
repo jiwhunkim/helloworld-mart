@@ -8,9 +8,11 @@ import io.kotest.spring.SpringAutowireConstructorExtension
 import io.kotest.spring.SpringListener
 
 class ProjectConfig : AbstractProjectConfig() {
-    override fun listeners() = listOf(SpringListener,
+    override fun listeners() = listOf(
+        SpringListener,
         rdsContainer.perProject("rds-container")
     )
+
     override fun extensions(): List<Extension> = listOf(SpringAutowireConstructorExtension)
 
 }

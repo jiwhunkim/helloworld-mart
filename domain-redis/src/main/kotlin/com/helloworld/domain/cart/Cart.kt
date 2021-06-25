@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 
-@RedisHash(timeToLive = (60 * 60 * 24) as Long) // 24 hour
+@RedisHash(timeToLive = (60 * 60 * 24)) // 24 hour
 open class Cart(
     accountId: Long,
     cartLineItems: List<CartLineItem> = emptyList()

@@ -15,13 +15,17 @@ import java.math.BigDecimal
 class CartSpec(cartRepository: CartRepository) : DescribeSpec() {
     init {
         describe("cart") {
-            it("create cart test") {
+            it("create cart no list") {
+                val cart = Cart(1L)
+                cart.id.shouldNotBe(null)
+            }
+            it("create cart with empty list") {
                 val cart = Cart(1L, emptyList())
                 cart.id.shouldNotBe(null)
                 cart.accountId.shouldBe(1L)
             }
 
-            it("create cart with cartLineItem") {
+            it("create cart with list") {
                 val cartProduct = CartProduct(productId = 1L, productName = "productName")
                 val cartProductOption = CartProductOption(
                     productOptionId = 1L,
@@ -50,7 +54,10 @@ class CartSpec(cartRepository: CartRepository) : DescribeSpec() {
 
                 val cart = Cart(1L, listOf(cartLineItem, cartLineItem2))
                 val result = cartRepository.save(cart)
-                result.shouldNotBe(null)
+                result.salesAmount.shouldBe(cartLineItem.salesAmount)
+                result.discountAmount.shouldBe(cartLineItem.discountAmount)
+                result.amount.shouldBe(cartLineItem.amount)
+
             }
         }
     }

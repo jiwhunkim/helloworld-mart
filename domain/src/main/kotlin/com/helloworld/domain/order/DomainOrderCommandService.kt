@@ -1,6 +1,7 @@
-package com.helloworld.domain
+package com.helloworld.domain.order
 
-import com.helloworld.domain.order.OrderLineItem
+import com.helloworld.domain.OrderPlaceService
+import com.helloworld.domain.ProductSaleService
 import org.springframework.stereotype.Service
 
 @Service
