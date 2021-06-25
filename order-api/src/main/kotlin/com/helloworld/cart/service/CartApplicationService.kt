@@ -25,7 +25,7 @@ class CartApplicationService(
         require(saved.isEmpty) { "already exist cart" }
 
         val cartLineItem = getCartLineItem(createCartDto)
-        val cart = Cart(accountId = user.accountId, listOf(cartLineItem))
+        val cart = Cart(accountId = user.accountId, cartLineItems = listOf(cartLineItem))
         val result = domainCartCommandService.save(cart)
         return cartMapStructMapper.convert(result)!!
     }
