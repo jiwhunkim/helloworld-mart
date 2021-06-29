@@ -9,5 +9,4 @@ import org.mapstruct.NullValueMappingStrategy
     collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED,
     nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT
 )
-interface MapperSpringConfig {
-}
+interface MapperSpringConfig

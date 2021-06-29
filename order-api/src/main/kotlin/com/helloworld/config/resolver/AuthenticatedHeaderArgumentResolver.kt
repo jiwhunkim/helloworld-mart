@@ -12,7 +12,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
 import javax.servlet.http.HttpServletRequest
 
-class AuthenticatedHeaderArgumentResolver: HandlerMethodArgumentResolver {
+class AuthenticatedHeaderArgumentResolver : HandlerMethodArgumentResolver {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val HEADER_CHANNEL_TYPE = "Channel-Type"
     private val HEADER_AUTHENTICATED = "Authenticated"
@@ -31,21 +31,22 @@ class AuthenticatedHeaderArgumentResolver: HandlerMethodArgumentResolver {
         val accountIdString = request.getHeader(HEADER_AUTHENTICATED)
 
         val accountId = try {
-                            accountIdString?.toLong() ?: throw NumberFormatException()
-                        } catch (e: NumberFormatException) {
-                            logger.warn("invalid accountId format {}", accountIdString)
-                            NOT_MEMBER_ACCOUNT_ID
-                        }
+            accountIdString?.toLong() ?: throw NumberFormatException()
+        } catch (e: NumberFormatException) {
+            logger.warn("invalid accountId format {}", accountIdString)
+            NOT_MEMBER_ACCOUNT_ID
+        }
 
-        return User(accountId = accountId,
-                isMember = accountId != NOT_MEMBER_ACCOUNT_ID,
-                authorization=request.getHeader(HttpHeaders.AUTHORIZATION),
-                channelType=request.getHeader(HEADER_CHANNEL_TYPE),
-                acceptLanguage=request.getHeader(HttpHeaders.ACCEPT_LANGUAGE),
-                deviceId=request.getHeader(HEADER_DEVICE_ID),
-                osCode=request.getHeader(HEADER_OS_CODE),
-                osVersion=request.getHeader(HEADER_OS_VERSION),
-                appVersion=request.getHeader(HEADER_APP_VERSION)
+        return User(
+            accountId = accountId,
+            isMember = accountId != NOT_MEMBER_ACCOUNT_ID,
+            authorization = request.getHeader(HttpHeaders.AUTHORIZATION),
+            channelType = request.getHeader(HEADER_CHANNEL_TYPE),
+            acceptLanguage = request.getHeader(HttpHeaders.ACCEPT_LANGUAGE),
+            deviceId = request.getHeader(HEADER_DEVICE_ID),
+            osCode = request.getHeader(HEADER_OS_CODE),
+            osVersion = request.getHeader(HEADER_OS_VERSION),
+            appVersion = request.getHeader(HEADER_APP_VERSION)
         )
     }
 }

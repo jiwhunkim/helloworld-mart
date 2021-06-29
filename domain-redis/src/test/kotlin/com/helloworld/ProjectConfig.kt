@@ -9,9 +9,8 @@ import io.kotest.spring.SpringListener
 
 class ProjectConfig : AbstractProjectConfig() {
     override fun listeners(): List<Listener> = listOf(
-            SpringListener,
-            redisContainer.perProject("redis-container")
+        SpringListener,
+        redisContainer.perProject("redis-container")
     )
     override fun extensions(): List<Extension> = listOf()
-
 }

@@ -19,7 +19,8 @@ class BaseEntity {
         protected set
 
     @UpdateTimestamp
-    @Column(nullable = false, columnDefinition = "DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) not null"
+    @Column(
+        nullable = false, columnDefinition = "DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) not null"
     )
     var updatedAt: ZonedDateTime = ZonedDateTime.now()
         protected set

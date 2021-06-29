@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class DomainApplication
 
 fun main(args: Array<String>) {
-	runApplication<DomainApplication>(*args)
+    runApplication<DomainApplication>(*args)
 }

@@ -6,9 +6,8 @@ import com.helloworld.domain.cart.Cart
 import org.mapstruct.Mapper
 import org.springframework.core.convert.converter.Converter
 
-
-@Mapper(config = MapperSpringConfig::class,
+@Mapper(
+    config = MapperSpringConfig::class,
     uses = [CartLineItemMapStructMapper::class]
 )
-interface CartMapStructMapper : Converter<Cart, CartDto> {
-}
+interface CartMapStructMapper : Converter<Cart, CartDto>

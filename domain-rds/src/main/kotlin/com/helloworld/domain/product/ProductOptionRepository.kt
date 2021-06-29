@@ -2,5 +2,4 @@ package com.helloworld.domain.product
 
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface ProductOptionRepository : JpaRepository<ProductOption, Long> {
-}
+interface ProductOptionRepository : JpaRepository<ProductOption, Long>

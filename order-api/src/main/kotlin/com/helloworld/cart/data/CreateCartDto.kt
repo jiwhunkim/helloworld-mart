@@ -5,5 +5,4 @@ data class CreateCartDto(
     val productOptionId: Long,
     val sellerProductId: Long,
     val quantity: Int
-) {
-}
+)

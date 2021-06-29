@@ -93,7 +93,6 @@ class CartApplicationServiceSpec(
                         cartApplicationService.create(user, createCartDto)
                     }
                     exception.message.shouldBe("not accepted account id")
-
                 }
             }
         }

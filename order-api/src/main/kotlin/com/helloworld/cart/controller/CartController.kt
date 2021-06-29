@@ -7,10 +7,6 @@ import com.helloworld.config.HelloworldUser
 import com.helloworld.data.cart.CartDto
 import com.helloworld.domain.common.data.User
 import io.swagger.v3.oas.annotations.Parameter
-import io.swagger.v3.oas.annotations.Parameters
-import io.swagger.v3.oas.annotations.enums.ParameterIn
-import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.Schema
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -21,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
     value = ["/order/carts"],
     produces = ["application/vnd.helloworld.api.v1+json; charset=UTF-8"]
 )
-class CartController(val cartApplicationService: CartApplicationService): CartControllerSwaggerInterface {
+class CartController(val cartApplicationService: CartApplicationService) : CartControllerSwaggerInterface {
     @PostMapping
     override fun create(
         @Parameter(hidden = true) @HelloworldUser user: User,

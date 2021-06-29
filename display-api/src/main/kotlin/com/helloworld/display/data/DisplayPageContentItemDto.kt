@@ -5,5 +5,4 @@ data class DisplayPageContentItemDto(
     val name: String,
     val content: DisplayPageContentDto,
     val order: Int
-) {
-}
+)

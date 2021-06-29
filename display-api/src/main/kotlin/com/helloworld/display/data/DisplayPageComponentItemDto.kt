@@ -7,5 +7,4 @@ data class DisplayPageComponentItemDto(
     val component: DisplayPageComponentDto,
     val contents: List<DisplayPageContentItemDto>,
     val order: Int
-) {
-}
+)

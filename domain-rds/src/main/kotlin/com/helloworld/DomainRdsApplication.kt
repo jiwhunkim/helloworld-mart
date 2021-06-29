@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class DomainRdsApplication
 
 fun main(args: Array<String>) {
-	runApplication<DomainRdsApplication>(*args)
+    runApplication<DomainRdsApplication>(*args)
 }

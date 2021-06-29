@@ -57,7 +57,6 @@ class CartSpec(cartRepository: CartRepository) : DescribeSpec() {
                 result.salesAmount.shouldBe(cartLineItem.salesAmount)
                 result.discountAmount.shouldBe(cartLineItem.discountAmount)
                 result.amount.shouldBe(cartLineItem.amount)
-
             }
         }
     }

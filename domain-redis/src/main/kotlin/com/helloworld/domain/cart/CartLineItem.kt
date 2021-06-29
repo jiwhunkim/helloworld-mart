@@ -29,8 +29,8 @@ class CartLineItem(
     override fun equals(other: Any?): Boolean {
         if (other is CartLineItem) {
             return this.cartProduct.productId == other.cartProduct.productId &&
-                    this.cartProductOption.productOptionId == other.cartProductOption.productOptionId &&
-                    this.cartSellerProduct.sellerProductId == other.cartSellerProduct.sellerProductId
+                this.cartProductOption.productOptionId == other.cartProductOption.productOptionId &&
+                this.cartSellerProduct.sellerProductId == other.cartSellerProduct.sellerProductId
         }
         return super.equals(other)
     }
@@ -45,7 +45,7 @@ class CartLineItem(
 
     companion object {
         fun createId(cartId: String, index: Int): String {
-            return "${cartId}${index}"
+            return "${cartId}$index"
         }
     }
 }

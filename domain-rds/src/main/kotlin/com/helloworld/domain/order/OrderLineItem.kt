@@ -50,5 +50,4 @@ class OrderLineItem(
     var totalSalesAmount: BigDecimal = salesAmount.multiply(quantity.toBigDecimal())
     var totalDiscountAmount: BigDecimal = discountAmount.multiply(quantity.toBigDecimal())
     var totalAmount: BigDecimal = amount.multiply(quantity.toBigDecimal())
-
 }

@@ -7,6 +7,4 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 @Configuration
 @EnableJpaRepositories(basePackages = ["com.helloworld.domain"])
 @EnableTransactionManagement
-class RdsConfig {
-
-}
+class RdsConfig

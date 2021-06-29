@@ -26,8 +26,7 @@ class OrderPlaceServiceSpec(
     sellerRepository: SellerRepository,
     sellerProductRepository: SellerProductRepository,
     orderRepository: OrderRepository
-): DescribeSpec() {
+) : DescribeSpec() {
     init {
-
     }
 }

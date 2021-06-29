@@ -8,5 +8,4 @@ class CartSellerProduct(
     val salesAmount: BigDecimal,
     val discountAmount: BigDecimal,
     val amount: BigDecimal
-) {
-}
+)

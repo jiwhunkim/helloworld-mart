@@ -19,7 +19,6 @@ dependencies {
     implementation("org.mapstruct.extensions.spring:mapstruct-spring-extensions:0.0.3")
 }
 
-
 val jar: Jar by tasks
 val bootJar: org.springframework.boot.gradle.tasks.bundling.BootJar by tasks
 

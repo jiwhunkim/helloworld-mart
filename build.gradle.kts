@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.5.0" apply false
     kotlin("plugin.jpa") version "1.5.0" apply false
     kotlin("kapt") version "1.5.0" apply false
+    id("org.jlleitschuh.gradle.ktlint") version "10.1.0" apply false
 }
 allprojects {
     group = "com.helloworld"
@@ -36,6 +37,7 @@ subprojects {
         plugin("kotlin")
         plugin("kotlin-kapt")
         plugin("java")
+        plugin("org.jlleitschuh.gradle.ktlint")
     }
 
     the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
@@ -52,6 +54,11 @@ subprojects {
 
         "implementation"("org.springframework.boot:spring-boot-starter")
         "testImplementation"("org.springframework.boot:spring-boot-starter-test")
+    }
+
+    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+        debug.set(true)
+        disabledRules.add("no-wildcard-imports")
     }
 
 }

@@ -4,5 +4,4 @@ class DisplayPageComponentDto(
     val id: Long,
     val name: String,
     val style: String
-) {
-}
+)

@@ -3,7 +3,6 @@ package com.helloworld.domain.product
 import java.math.BigDecimal
 import javax.persistence.*
 
-
 @Entity(name = "seller_products")
 class SellerProduct(
     code: String,
