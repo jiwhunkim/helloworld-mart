@@ -23,14 +23,11 @@ class SellerProductSpec(
     init {
         describe("create seller product") {
             it("create") {
-                var seller = Seller(name = "seller")
+                var seller = SellerFixture.of()
                 sellerRepository.save(seller)
-                var sku = Sku(code = "code", name = "sku", description = "description", BigDecimal(1000))
+                var sku = SkuFixture.of(supplyPrice = BigDecimal(1000))
                 skuRepository.save(sku)
-                var sellerProduct = SellerProduct(
-                    code = "code",
-                    name = "name",
-                    description = "description",
+                var sellerProduct = SellerProductFixture.of(
                     seller = seller,
                     sku = sku,
                     salesAmount = BigDecimal(1000)

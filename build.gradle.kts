@@ -69,6 +69,11 @@ var testcontainerProjects = listOf(
     project("order-api")
 )
 
+var testfixtureProjects = listOf(
+    project("domain-redis"),
+    project("domain-rds")
+)
+
 object kotest {
     val version = "4.4.3"
 
@@ -77,7 +82,6 @@ object kotest {
     }
 }
 
-
 configure(kotestProjects) {
     dependencies {
         "testImplementation"("io.kotest:kotest-runner-junit5:${kotest.version}") // for kotest framework
@@ -85,7 +89,6 @@ configure(kotestProjects) {
         "testImplementation"("io.kotest:kotest-property:${kotest.version}") // for kotest property test
         "testImplementation"("io.kotest.extensions:kotest-extensions-spring:${kotest.extension.version}")
         "testImplementation"("io.kotest.extensions:kotest-extensions-testcontainers:${kotest.extension.version}")
-
 
         "testImplementation"("io.mockk:mockk")
         "testImplementation"("com.ninja-squad:springmockk:3.0.1")
@@ -97,5 +100,22 @@ configure(testcontainerProjects) {
         "testImplementation"("org.testcontainers:junit-jupiter")
         "testImplementation"("org.testcontainers:mysql")
         "testImplementation"("org.testcontainers:mariadb")
+    }
+}
+
+configure(testfixtureProjects) {
+    apply {
+        plugin("java-test-fixtures")
+    }
+    dependencies {
+        "testFixturesImplementation"("io.kotest:kotest-runner-junit5:${kotest.version}") // for kotest framework
+        "testFixturesImplementation"("io.kotest:kotest-assertions-core:${kotest.version}") // for kotest core jvm assertions
+        "testFixturesImplementation"("io.kotest:kotest-property:${kotest.version}") // for kotest property test
+        "testFixturesImplementation"("io.kotest.extensions:kotest-extensions-spring:${kotest.extension.version}")
+        "testFixturesImplementation"("io.kotest.extensions:kotest-extensions-testcontainers:${kotest.extension.version}")
+
+        "testFixturesImplementation"("org.testcontainers:junit-jupiter")
+        "testFixturesImplementation"("org.testcontainers:mysql")
+        "testFixturesImplementation"("org.testcontainers:mariadb")
     }
 }

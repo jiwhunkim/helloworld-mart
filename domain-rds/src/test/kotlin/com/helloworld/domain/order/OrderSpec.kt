@@ -30,7 +30,7 @@ class OrderSpec(
     init {
         describe("create order test") {
             it("order") {
-                val order = OrderEntity(accountId = 1L, orderLineItems = mutableListOf())
+                val order = OrderEntityFixture.of()
                 order.shouldNotBeNull()
                 var result = orderRepository.save(order)
                 entityManager.clear()
@@ -39,32 +39,21 @@ class OrderSpec(
             }
 
             it("order with orderLineItems") {
-                val product = productRepository.save(Product(code = "code", name = "name", description = "description"))
+                val product = productRepository.save(ProductFixture.of())
                 val sku =
-                    skuRepository.save(Sku(code = "code", name = "sku", description = "description", BigDecimal(1000)))
+                    skuRepository.save(SkuFixture.of(supplyPrice = BigDecimal(1000)))
                 val seller = sellerRepository.save(Seller(name = "name"))
 
-                val sellerProduct =
-                    SellerProduct(
-                        code = "code",
-                        name = "name",
-                        description = "description",
-                        seller = seller,
-                        sku = sku,
-                        salesAmount = BigDecimal(1000)
-                    )
+                val sellerProduct = SellerProductFixture.of(seller = seller, sku = sku, salesAmount = BigDecimal(1000))
+
                 sellerProductRepository.save(sellerProduct)
 
-                val productOption =
-                    ProductOption(
-                        code = "code",
-                        name = "name",
-                        description = "description",
-                        sellerProduct = sellerProduct,
-                        salesAmount = BigDecimal(1000),
-                        discountAmount = BigDecimal(0),
-                        amount = BigDecimal(1000)
-                    )
+                val productOption = ProductOptionFixture.of(
+                    sellerProduct = sellerProduct,
+                    salesAmount = BigDecimal(1000),
+                    discountAmount = BigDecimal(0),
+                    amount = BigDecimal(1000)
+                )
                 productOptionRepository.save(productOption)
 
                 val orderLineItem = OrderLineItem(

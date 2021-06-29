@@ -2,7 +2,6 @@ package com.helloworld.cart.service
 
 import com.helloworld.OrderApplication
 import com.helloworld.cart.data.CreateCartDto
-import com.helloworld.config.audit.AuditorAwareImpl
 import com.helloworld.domain.common.data.User
 import com.helloworld.domain.product.*
 import com.helloworld.rds.config.RdsConfig
@@ -16,45 +15,33 @@ import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
 
 @SpringBootTest(classes = [OrderApplication::class])
-@Import(RdsConfig::class, AuditorAwareImpl::class)
+@Import(RdsConfig::class, DomainProductCommandService::class)
 @ActiveProfiles(profiles = ["test"])
 class CartApplicationServiceSpec(
-    productRepository: ProductRepository,
-    productOptionRepository: ProductOptionRepository,
-    sellerRepository: SellerRepository,
-    sellerProductRepository: SellerProductRepository,
-    skuRepository: SkuRepository,
+    domainProductCommandService: DomainProductCommandService,
     cartApplicationService: CartApplicationService
 ) : DescribeSpec() {
 
     init {
         describe(".create") {
-            val product = productRepository.save(Product(code = "code", name = "name", description = "description"))
-            val sku =
-                skuRepository.save(Sku(code = "code", name = "sku", description = "description", BigDecimal(1000)))
-            val seller = sellerRepository.save(Seller(name = "name"))
+            val product = domainProductCommandService.save(ProductFixture.of())
+            val sku = domainProductCommandService.save(SkuFixture.of(supplyPrice = BigDecimal(1000)))
+            val seller = domainProductCommandService.save(SellerFixture.of())
             val sellerProduct =
-                SellerProduct(
-                    code = "code",
-                    name = "name",
-                    description = "description",
+                SellerProductFixture.of(
                     seller = seller,
                     sku = sku,
                     salesAmount = BigDecimal(1000)
                 )
-            sellerProductRepository.save(sellerProduct)
+            domainProductCommandService.save(sellerProduct)
 
             val productOption =
-                ProductOption(
-                    code = "code",
-                    name = "name",
-                    description = "description",
+                ProductOptionFixture.of(
                     sellerProduct = sellerProduct,
                     salesAmount = BigDecimal(1000),
-                    discountAmount = BigDecimal(0),
                     amount = BigDecimal(1000)
                 )
-            productOptionRepository.save(productOption)
+            domainProductCommandService.save(productOption)
 
             context("with properly data") {
                 it("success") {

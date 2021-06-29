@@ -30,7 +30,7 @@ class DomainCartCommandServiceSpec(
 
         describe(".createCartLineItem") {
             it("make object") {
-                var seller = Seller(name = "seller")
+                var seller = SellerFixture.of()
                 var sku = Sku(code = "code", name = "sku", description = "description", BigDecimal(1000))
                 var sellerProduct = SellerProduct(
                     code = "code",
