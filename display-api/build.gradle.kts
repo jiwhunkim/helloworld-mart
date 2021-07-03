@@ -11,6 +11,7 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
 
+    implementation(project(":core"))
     implementation(project(":domain-redis"))
     testImplementation(testFixtures(project(":domain-redis")))
     implementation(project(":domain-rds"))

@@ -1,5 +1,9 @@
 package com.helloworld.domain.product
 
+import com.helloworld.product.domain.Product
+import com.helloworld.product.domain.ProductOption
+import com.helloworld.product.domain.ProductOptionRepository
+import com.helloworld.product.domain.ProductRepository
 import org.springframework.stereotype.Service
 import javax.persistence.EntityNotFoundException
 
