@@ -1,4 +1,4 @@
-package com.helloworld.domain.product
+package com.helloworld.product.domain.service
 
 import com.helloworld.product.domain.Product
 import com.helloworld.product.domain.ProductOption
@@ -14,6 +14,10 @@ class DomainProductQueryService(
 ) {
     fun findProductById(id: Long): Product {
         return productRepository.findById(id).orElseThrow { EntityNotFoundException("product $id not found") }
+    }
+
+    fun findProductOptionByProductId(productId: Long): List<ProductOption> {
+        return productOptionRepository.findByProductId(productId)
     }
 
     fun findProductOptionById(id: Long): ProductOption {

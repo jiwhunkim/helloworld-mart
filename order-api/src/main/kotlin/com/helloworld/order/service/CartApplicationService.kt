@@ -1,7 +1,7 @@
 package com.helloworld.order.service
 
 import com.helloworld.common.domain.data.User
-import com.helloworld.domain.product.DomainProductQueryService
+import com.helloworld.product.domain.service.DomainProductQueryService
 import com.helloworld.order.data.cart.CreateCartDto
 import com.helloworld.order.domain.Cart
 import com.helloworld.order.domain.CartLineItem

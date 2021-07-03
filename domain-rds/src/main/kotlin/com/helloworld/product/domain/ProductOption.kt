@@ -9,6 +9,7 @@ class ProductOption(
     code: String,
     name: String,
     description: String,
+    productId: Long,
     sellerProduct: SellerProduct,
     salesAmount: BigDecimal,
     discountAmount: BigDecimal,
@@ -26,6 +27,9 @@ class ProductOption(
         protected set
 
     var description: String = description
+        protected set
+
+    var productId: Long = productId
         protected set
 
     @ManyToOne

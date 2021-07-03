@@ -1,4 +1,4 @@
-package com.helloworld.domain.product
+package com.helloworld.product.domain.service
 
 import com.helloworld.product.domain.Product
 import com.helloworld.product.domain.ProductOption

@@ -40,6 +40,7 @@ drop table if exists products;
 create table products
 (
     id          bigint       not null auto_increment,
+    mall_id     bigint       not null,
     code        varchar(255),
     name        varchar(255),
     description varchar(255),
@@ -54,6 +55,7 @@ drop table if exists product_options;
 create table product_options
 (
     id                bigint         not null auto_increment,
+    product_id bigint         not null,
     seller_product_id bigint         not null,
     code              varchar(128),
     name              varchar(255),
@@ -126,4 +128,18 @@ create table stocks
     updated_at        DATETIME(6) DEFAULT CURRENT_TIMESTAMP (6) ON UPDATE CURRENT_TIMESTAMP (6) not null,
     updated_by        VARCHAR(128) NOT NULL DEFAULT '',
     primary key (id)
-) engine=InnoDB
+) engine=InnoDB;
+
+drop table if exists display_products;
+create table display_products
+(
+    id          bigint not null auto_increment,
+    code        varchar(255),
+    name        varchar(255),
+    description varchar(255),
+    product_id  bigint not null,
+    display     bit    not null,
+    sale        bit    not null,
+    sold_out    bit    not null,
+    primary key (id)
+) engine=InnoDB;

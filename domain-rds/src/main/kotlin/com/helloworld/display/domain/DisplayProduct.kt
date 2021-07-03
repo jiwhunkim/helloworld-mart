@@ -1,31 +1,27 @@
-package com.helloworld.product.domain
+package com.helloworld.display.domain
 
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 
-@Entity(name = "products")
-class Product(
-    code: String,
-    name: String,
-    description: String,
-    mallId: Long
+@Entity(name = "display_products")
+class DisplayProduct(
+    productId: Long,
+    display: Boolean = true,
+    sale: Boolean = true,
+    soldOut: Boolean = false,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L
         protected set
-
-    var code: String = code
+    var productId: Long = productId
         protected set
-
-    var name: String = name
+    var display: Boolean = display
         protected set
-
-    var description: String = description
+    var sale: Boolean = sale
         protected set
-
-    var mallId: Long = mallId
+    var soldOut: Boolean = soldOut
         protected set
 }
