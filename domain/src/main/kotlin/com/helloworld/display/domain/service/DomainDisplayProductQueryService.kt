@@ -3,7 +3,6 @@ package com.helloworld.display.domain.service
 import com.helloworld.display.domain.DisplayProduct
 import com.helloworld.display.domain.DisplayProductRepository
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
 import java.time.ZonedDateTime
 import javax.persistence.EntityNotFoundException
 
@@ -18,6 +17,5 @@ class DomainDisplayProductQueryService(
         } catch (ex: EntityNotFoundException) {
             throw NoSuchElementException()
         }
-
     }
 }

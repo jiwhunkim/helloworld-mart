@@ -1,7 +1,6 @@
 package com.helloworld.order.service
 
 import com.helloworld.common.domain.data.User
-import com.helloworld.product.domain.service.DomainProductQueryService
 import com.helloworld.order.data.cart.CreateCartDto
 import com.helloworld.order.domain.Cart
 import com.helloworld.order.domain.CartLineItem
@@ -9,6 +8,7 @@ import com.helloworld.order.domain.dto.CartDto
 import com.helloworld.order.domain.mapper.CartMapStructMapper
 import com.helloworld.order.domain.service.DomainCartCommandService
 import com.helloworld.order.domain.service.DomainCartQueryService
+import com.helloworld.product.domain.service.DomainProductQueryService
 import org.springframework.stereotype.Service
 
 @Service
