@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class DomainRedisApplication
 
 fun main(args: Array<String>) {
-	runApplication<DomainRedisApplication>(*args)
+    runApplication<DomainRedisApplication>(*args)
 }

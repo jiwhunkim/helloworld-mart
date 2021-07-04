@@ -15,5 +15,4 @@ class ProjectConfig : AbstractProjectConfig() {
         redisContainer.perProject("redis-container"),
     )
     override fun extensions(): List<Extension> = listOf(SpringAutowireConstructorExtension)
-
 }

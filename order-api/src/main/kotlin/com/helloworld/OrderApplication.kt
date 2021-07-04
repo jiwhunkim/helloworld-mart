@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class OrderApplication
 
 fun main(args: Array<String>) {
-	runApplication<OrderApplication>(*args)
+    runApplication<OrderApplication>(*args)
 }

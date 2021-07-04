@@ -1,6 +1,7 @@
 package com.helloworld.domain.cart
 
 import com.helloworld.config.redis.config.RedisConfig
+import com.helloworld.order.domain.*
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -57,7 +58,6 @@ class CartSpec(cartRepository: CartRepository) : DescribeSpec() {
                 result.salesAmount.shouldBe(cartLineItem.salesAmount)
                 result.discountAmount.shouldBe(cartLineItem.discountAmount)
                 result.amount.shouldBe(cartLineItem.amount)
-
             }
         }
     }

@@ -14,5 +14,4 @@ class ProjectConfig : AbstractProjectConfig() {
     )
 
     override fun extensions(): List<Extension> = listOf(SpringAutowireConstructorExtension)
-
 }

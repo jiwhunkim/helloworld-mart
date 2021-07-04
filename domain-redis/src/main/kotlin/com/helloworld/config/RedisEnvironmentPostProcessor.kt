@@ -20,7 +20,6 @@ import java.util.*
 class RedisEnvironmentPostProcessor : EnvironmentPostProcessor, Ordered {
     private val propertySourceLoader: PropertiesPropertySourceLoader = PropertiesPropertySourceLoader()
 
-
     override fun postProcessEnvironment(environment: ConfigurableEnvironment?, application: SpringApplication?) {
         var resourceLoader = application!!.resourceLoader
         resourceLoader = resourceLoader ?: DefaultResourceLoader()
@@ -36,7 +35,7 @@ class RedisEnvironmentPostProcessor : EnvironmentPostProcessor, Ordered {
 
         for (resource in resources) {
             if (resource != null) {
-                println("resource : ${resource.filename}" )
+                println("resource : ${resource.filename}")
                 println("${resource.description}")
             }
             loadResource(resource!!, environment!!)!!.forEach { property ->
@@ -56,7 +55,7 @@ class RedisEnvironmentPostProcessor : EnvironmentPostProcessor, Ordered {
             .toMutableList()
 
         val filteredPropertySources = environment.activeProfiles.filter { profile -> propertySources.any { getMatchedProfiles(it, environment).contains(profile) } }
-            .flatMap {  profile ->
+            .flatMap { profile ->
                 propertySources.filter { getMatchedProfiles(it, environment).contains(profile) }
             }.toMutableList()
 
@@ -72,7 +71,6 @@ class RedisEnvironmentPostProcessor : EnvironmentPostProcessor, Ordered {
             Binder(ConfigurationPropertySources.from(propertySource), PropertySourcesPlaceholdersResolver(environment))
         return binder.bind("spring.config.activate.on-profile", Bindable.of(Array<String>::class.java))
             .orElse(emptyArray())
-
     }
 
     override fun getOrder(): Int = Ordered.LOWEST_PRECEDENCE

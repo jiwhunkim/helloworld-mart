@@ -35,7 +35,7 @@ class RdsEnvironmentPostProcessor : EnvironmentPostProcessor, Ordered {
 
         for (resource in resources) {
             if (resource != null) {
-                println("resource : ${resource.filename}" )
+                println("resource : ${resource.filename}")
                 println("${resource.description}")
             }
             loadResource(resource!!, environment!!)!!.forEach { property ->
@@ -56,7 +56,8 @@ class RdsEnvironmentPostProcessor : EnvironmentPostProcessor, Ordered {
 
         val filteredPropertySources = environment.activeProfiles.filter { profile -> propertySources.any { getMatchedProfiles(it, environment).contains(profile) } }
             .flatMap {
-                profile -> propertySources.filter { getMatchedProfiles(it, environment).contains(profile) }
+                profile ->
+                propertySources.filter { getMatchedProfiles(it, environment).contains(profile) }
             }.toMutableList()
 
         filteredPropertySources.addAll(defaultPropertySources)
@@ -71,7 +72,6 @@ class RdsEnvironmentPostProcessor : EnvironmentPostProcessor, Ordered {
             Binder(ConfigurationPropertySources.from(propertySource), PropertySourcesPlaceholdersResolver(environment))
         return binder.bind("spring.config.activate.on-profile", Bindable.of(Array<String>::class.java))
             .orElse(emptyArray())
-
     }
 
     override fun getOrder(): Int = Ordered.LOWEST_PRECEDENCE
