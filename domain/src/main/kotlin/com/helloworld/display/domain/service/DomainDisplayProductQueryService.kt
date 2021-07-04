@@ -13,9 +13,10 @@ class DomainDisplayProductQueryService(
     fun findByProductId(productId: Long): DisplayProduct {
         try {
             println(ZonedDateTime.now())
-            return displayProductRepository.findByProductId(productId).orElseThrow { EntityNotFoundException() }
+            return displayProductRepository.findByProductId(productId)
+                .orElseThrow { EntityNotFoundException("productId - $productId not exist") }
         } catch (ex: EntityNotFoundException) {
-            throw NoSuchElementException()
+            throw NoSuchElementException(ex.message)
         }
     }
 }

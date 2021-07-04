@@ -9,11 +9,17 @@ import javax.servlet.http.HttpServletResponse
 @ControllerAdvice
 class CustomGlobalExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(
-        NoSuchElementException::class,
         IllegalArgumentException::class
     )
     fun handleBadRequests(response: HttpServletResponse) {
         response.sendError(HttpStatus.BAD_REQUEST.value())
+    }
+
+    @ExceptionHandler(
+        NoSuchElementException::class
+    )
+    fun handleNotFoundRequests(response: HttpServletResponse) {
+        response.sendError(HttpStatus.NOT_FOUND.value())
     }
 
     @ExceptionHandler(

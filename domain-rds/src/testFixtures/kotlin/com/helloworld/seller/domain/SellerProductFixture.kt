@@ -10,13 +10,15 @@ object SellerProductFixture {
         description: String = "description",
         seller: Seller,
         sku: Sku,
-        salesAmount: BigDecimal = BigDecimal.ZERO
+        salesAmount: BigDecimal = BigDecimal.ZERO,
+        discountAmount: BigDecimal = BigDecimal.ZERO
     ) = SellerProduct(
         code = code,
         name = name,
         description = description,
         seller = seller,
         sku = sku,
-        salesAmount = salesAmount
+        salesAmount = salesAmount,
+        discountAmount = discountAmount
     )
 }
