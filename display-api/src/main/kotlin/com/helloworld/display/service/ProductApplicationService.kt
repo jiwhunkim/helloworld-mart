@@ -1,24 +1,26 @@
 package com.helloworld.display.service
 
 import com.helloworld.display.data.dto.response.DisplayProductResponseDto
-import com.helloworld.display.domain.dto.DisplayProductDto
+import com.helloworld.display.domain.mapper.DisplayProductMapStructMapper
+import com.helloworld.display.domain.service.DomainDisplayProductQueryService
+import com.helloworld.product.domain.mapper.ProductMapStructMapper
 import com.helloworld.product.domain.service.DomainProductQueryService
-import com.helloworld.seller.domain.dto.SellerDto
-import com.helloworld.stock.domain.service.DomainStockQueryService
+import com.helloworld.seller.domain.service.DomainSellerQueryService
 import org.springframework.stereotype.Service
 
 @Service
 class ProductApplicationService(
-    val domainProductQueryService: DomainProductQueryService,
-    val domainStockQueryService: DomainStockQueryService
+    private val domainDisplayProductQueryService: DomainDisplayProductQueryService,
+    private val domainProductQueryService: DomainProductQueryService,
+    private val domainSellerQueryService: DomainSellerQueryService,
+    private val displayProductMapStructMapper: DisplayProductMapStructMapper,
+    private val productMapStructMapper: ProductMapStructMapper
 ) {
     fun detail(id: Long): DisplayProductResponseDto {
-        // get product domain productDetail
+        val displayProduct = domainDisplayProductQueryService.findByProductId(id)
+        val displayProductDto = displayProductMapStructMapper.convert(displayProduct)
         val product = domainProductQueryService.findProductById(id)
-        val productOptions = domainProductQueryService.findProductOptionByProductId(id)
-        // get sku domain sku
-        // get stock domain stock
-        // get seller domain seller
-        return DisplayProductResponseDto(DisplayProductDto(), SellerDto())
+        val productDto = productMapStructMapper.convert(product)
+        return DisplayProductResponseDto(displayProductDto!!, productDto!!)
     }
 }
