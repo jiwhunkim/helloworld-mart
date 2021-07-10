@@ -1,9 +1,7 @@
 package com.helloworld
 
-import com.helloworld.RdsProjectListener.rdsContainer
 import io.kotest.core.config.AbstractProjectConfig
 import io.kotest.core.extensions.Extension
-import io.kotest.extensions.testcontainers.perProject
 import io.kotest.spring.SpringAutowireConstructorExtension
 import io.kotest.spring.SpringListener
 

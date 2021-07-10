@@ -1,4 +1,4 @@
-package com.helloworld.display.domain
+package com.helloworld.display.domain.product
 
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue

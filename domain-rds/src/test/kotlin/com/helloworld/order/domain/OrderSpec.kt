@@ -5,8 +5,7 @@ import io.kotest.matchers.nulls.shouldNotBeNull
 import org.springframework.test.context.ActiveProfiles
 
 @ActiveProfiles("test")
-class OrderSpec(
-) : DescribeSpec() {
+class OrderSpec() : DescribeSpec() {
     init {
         describe("create order test") {
             it("order") {

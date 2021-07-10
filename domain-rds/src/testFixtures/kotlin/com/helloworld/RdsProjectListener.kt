@@ -13,7 +13,7 @@ object RdsProjectListener : ProjectListener {
 
     override suspend fun beforeProject() {
         super.beforeProject()
-        if(rdsContainer.isRunning) {
+        if (rdsContainer.isRunning) {
             System.setProperty("spring.datasource.hikari.driver-class-name", rdsContainer.driverClassName)
             System.setProperty("spring.datasource.hikari.jdbc-url", rdsContainer.jdbcUrl)
             System.setProperty("spring.datasource.hikari.username", rdsContainer.username)

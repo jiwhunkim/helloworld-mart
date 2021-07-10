@@ -1,6 +1,5 @@
 package com.helloworld.display.controller
 
-import com.helloworld.display.data.dto.DisplayPageDto
 import com.helloworld.web.data.Response
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 )
 class PageController {
     @GetMapping("/mall/{mallId}/pages/{id}")
-    fun index(@PathVariable mallId: Long, @PathVariable id: String): Response<DisplayPageDto> {
-        return Response(DisplayPageDto())
+    fun index(@PathVariable mallId: Long, @PathVariable id: String): Response<String> {
+        return Response("String")
     }
 }
