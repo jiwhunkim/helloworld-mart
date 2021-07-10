@@ -13,6 +13,9 @@ dependencies {
         exclude(module = "hibernate-core")
     }
 
+    implementation("com.querydsl:querydsl-jpa")
+    kapt(group = "com.querydsl", name = "querydsl-apt", classifier = "jpa")
+
     implementation(project(":domain-redis"))
     testImplementation(testFixtures(project(":domain-redis")))
     implementation(project(":domain-rds"))

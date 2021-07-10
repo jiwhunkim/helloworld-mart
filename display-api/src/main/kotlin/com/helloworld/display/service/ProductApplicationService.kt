@@ -1,7 +1,7 @@
 package com.helloworld.display.service
 
 import com.helloworld.display.data.dto.response.DisplayProductResponseDto
-import com.helloworld.display.domain.mapper.DisplayProductMapStructMapper
+import com.helloworld.display.domain.mapper.product.DisplayProductMapStructMapper
 import com.helloworld.display.domain.service.DomainDisplayProductQueryService
 import com.helloworld.product.domain.mapper.ProductMapStructMapper
 import com.helloworld.product.domain.mapper.ProductOptionMapStructMapper

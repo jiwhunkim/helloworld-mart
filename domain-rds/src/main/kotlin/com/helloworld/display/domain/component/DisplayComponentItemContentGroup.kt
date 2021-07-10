@@ -7,7 +7,7 @@ import javax.persistence.*
 class DisplayComponentItemContentGroup(
     componentItem: DisplayComponentItem,
     contentGroup: DisplayContentGroup? = null,
-    order: Int = 0
+    position: Int = 0
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +35,6 @@ class DisplayComponentItemContentGroup(
     )
     var contentGroup: DisplayContentGroup? = contentGroup
 
-    var order: Int = order
+    var position: Int = position
         protected set
 }

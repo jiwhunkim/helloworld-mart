@@ -7,8 +7,6 @@ import javax.persistence.*
 class DisplayPageLayoutItem(
     layout: DisplayPageLayout,
     componentItem: DisplayComponentItem,
-    row: Int = 0,
-    col: Int = 0
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,11 +33,5 @@ class DisplayPageLayoutItem(
         foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT)
     )
     var componentItem: DisplayComponentItem = componentItem
-        protected set
-
-    var row: Int = row
-        protected set
-
-    var col: Int = col
         protected set
 }

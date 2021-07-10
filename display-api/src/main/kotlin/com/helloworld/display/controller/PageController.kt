@@ -1,6 +1,12 @@
 package com.helloworld.display.controller
 
+import com.helloworld.display.data.dto.display.condition.DisplayPageSearchCondition
+import com.helloworld.display.domain.dto.page.DisplayPageDto
+import com.helloworld.display.service.DisplayPageApplicationService
 import com.helloworld.web.data.Response
+import org.springdoc.api.annotations.ParameterObject
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -11,9 +17,15 @@ import org.springframework.web.bind.annotation.RestController
     value = ["/display"],
     produces = ["application/vnd.helloworld.api.v1+json; charset=UTF-8"]
 )
-class PageController {
-    @GetMapping("/mall/{mallId}/pages/{id}")
-    fun index(@PathVariable mallId: Long, @PathVariable id: String): Response<String> {
-        return Response("String")
+class PageController(
+    private val displayPageApplicationService: DisplayPageApplicationService
+) {
+    @GetMapping("/mall/{mallId}/pages")
+    fun index(
+        @PathVariable mallId: Long,
+        @ParameterObject pageable: Pageable,
+        @ParameterObject condition: DisplayPageSearchCondition
+    ): Response<Page<DisplayPageDto>> {
+        return Response(displayPageApplicationService.findAll(condition, pageable))
     }
 }

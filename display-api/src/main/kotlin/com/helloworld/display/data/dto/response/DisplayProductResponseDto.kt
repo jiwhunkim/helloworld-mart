@@ -1,6 +1,6 @@
 package com.helloworld.display.data.dto.response
 
-import com.helloworld.display.domain.dto.DisplayProductDto
+import com.helloworld.display.domain.dto.product.DisplayProductDto
 import com.helloworld.product.domain.dto.ProductDto
 import com.helloworld.product.domain.dto.ProductOptionDto
 import java.math.BigDecimal
