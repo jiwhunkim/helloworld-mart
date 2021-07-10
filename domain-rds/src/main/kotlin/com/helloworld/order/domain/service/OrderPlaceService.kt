@@ -1,8 +1,8 @@
 package com.helloworld.order.domain.service
 
-import com.helloworld.order.domain.OrderEntity
-import com.helloworld.order.domain.OrderLineItem
-import com.helloworld.order.domain.OrderRepository
+import com.helloworld.order.domain.entity.OrderEntity
+import com.helloworld.order.domain.entity.OrderLineItem
+import com.helloworld.order.domain.repository.OrderRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

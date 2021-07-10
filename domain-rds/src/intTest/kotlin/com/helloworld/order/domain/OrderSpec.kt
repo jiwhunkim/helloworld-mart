@@ -1,6 +1,9 @@
 package com.helloworld.order.domain
 
 import com.helloworld.config.audit.AuditorAwareImpl
+import com.helloworld.order.domain.entity.OrderEntity
+import com.helloworld.order.domain.entity.OrderLineItem
+import com.helloworld.order.domain.repository.OrderRepository
 import com.helloworld.product.domain.ProductFixture
 import com.helloworld.product.domain.ProductOptionFixture
 import com.helloworld.product.domain.ProductOptionRepository

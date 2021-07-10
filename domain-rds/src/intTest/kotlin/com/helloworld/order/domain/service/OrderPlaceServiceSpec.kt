@@ -1,7 +1,7 @@
 package com.helloworld.order.domain.service
 
 import com.helloworld.config.audit.AuditorAwareImpl
-import com.helloworld.order.domain.OrderRepository
+import com.helloworld.order.domain.repository.OrderRepository
 import com.helloworld.product.domain.ProductOptionRepository
 import com.helloworld.product.domain.ProductRepository
 import com.helloworld.rds.config.RdsConfig

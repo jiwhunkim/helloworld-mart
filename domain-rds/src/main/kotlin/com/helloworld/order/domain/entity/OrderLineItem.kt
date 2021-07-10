@@ -1,4 +1,4 @@
-package com.helloworld.order.domain
+package com.helloworld.order.domain.entity
 
 import com.helloworld.common.domain.BaseEntity
 import com.helloworld.product.domain.Product
