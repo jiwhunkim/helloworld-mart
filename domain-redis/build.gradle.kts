@@ -4,7 +4,6 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.spring")
     id("jacoco")
-    id("java-library")
 
     application
 }
@@ -38,16 +37,29 @@ tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
 }
 
-// val testConfig = configurations.create("testArtifacts") {
-//    extendsFrom(configurations["testImplementation"])
-// }
-//
-// tasks.register("testJar", Jar::class.java) {
-//    dependsOn("testClasses")
-//    archiveClassifier.set("test")
-//    from(sourceSets["test"].output)
-// }
-//
-// artifacts {
-//    add("testArtifacts", tasks.named<Jar>("testJar") )
-// }
+sourceSets {
+    create("intTest") {
+        compileClasspath += sourceSets.main.get().output + sourceSets.test.get().output
+        runtimeClasspath += sourceSets.main.get().output + sourceSets.test.get().output
+
+        resources.srcDir(file("src/intTest/resources"))
+    }
+}
+
+val intTestImplementation: Configuration by configurations.getting {
+    extendsFrom(configurations.implementation.get(), configurations.testImplementation.get())
+}
+
+configurations["intTestImplementation"].extendsFrom(configurations.testImplementation.get())
+configurations["intTestRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
+
+val integrationTest = task<Test>("integrationTest") {
+    description = "Runs integration tests."
+    group = "verification"
+
+    testClassesDirs = sourceSets["intTest"].output.classesDirs
+    classpath = sourceSets["intTest"].runtimeClasspath
+    shouldRunAfter("test")
+}
+
+tasks.check { dependsOn(integrationTest) }
