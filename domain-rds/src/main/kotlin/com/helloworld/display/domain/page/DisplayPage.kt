@@ -1,5 +1,6 @@
 package com.helloworld.display.domain.page
 
+import com.helloworld.common.domain.BaseEntity
 import javax.persistence.*
 
 @Entity(name = "display_pages")
@@ -8,7 +9,7 @@ class DisplayPage(
     name: String,
     code: String,
     layoutType: PageLayoutType,
-) {
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L
