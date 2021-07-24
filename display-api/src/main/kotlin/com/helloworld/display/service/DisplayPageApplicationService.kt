@@ -14,8 +14,8 @@ class DisplayPageApplicationService(
     private val domainDisplayPageQueryService: DomainDisplayPageQueryService,
     private val displayPageMapStructMapper: DisplayPageMapStructMapper
 ) {
-    fun findAll(condition: DisplayPageSearchCondition, pageable: Pageable): Page<DisplayPageDto> {
-        val page = domainDisplayPageQueryService.findAll(condition = condition.toCondition(), pageable = pageable)
+    fun findAll(mallId: Long, condition: DisplayPageSearchCondition, pageable: Pageable): Page<DisplayPageDto> {
+        val page = domainDisplayPageQueryService.findAll(condition = condition.toCondition(mallId), pageable = pageable)
         val list = page.content.map { displayPageMapStructMapper.convert(it) }.toList()
         return PageImpl(list, page.pageable, page.totalElements)
     }

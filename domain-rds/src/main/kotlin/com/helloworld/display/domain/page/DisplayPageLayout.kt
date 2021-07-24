@@ -8,6 +8,7 @@ class DisplayPageLayout(
     page: DisplayPage,
     name: String,
     description: String,
+    enabled: Boolean = false,
     startAt: ZonedDateTime = ZonedDateTime.now().minusDays(1),
     endAt: ZonedDateTime = ZonedDateTime.now().plusYears(1)
 ) {
@@ -31,6 +32,9 @@ class DisplayPageLayout(
         protected set
 
     var description: String = description
+        protected set
+
+    var enabled: Boolean = enabled
         protected set
 
     var startAt: ZonedDateTime = startAt
