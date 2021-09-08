@@ -44,7 +44,7 @@ subprojects {
     the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
         imports {
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR8")
-            mavenBom("org.testcontainers:testcontainers-bom:1.15.3")
+            mavenBom("org.testcontainers:testcontainers-bom:1.16.0")
         }
     }
 
