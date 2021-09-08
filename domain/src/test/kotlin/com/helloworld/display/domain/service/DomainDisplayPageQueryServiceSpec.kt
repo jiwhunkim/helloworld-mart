@@ -18,8 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
 @ActiveProfiles("test")
-class DomainDisplayPageQueryServiceSpec(
-) : DescribeSpec() {
+class DomainDisplayPageQueryServiceSpec() : DescribeSpec() {
     init {
         val displayPageRepository: DisplayPageRepository = mockk()
         val domainDisplayPageQueryService = DomainDisplayPageQueryService(displayPageRepository)
@@ -35,7 +34,8 @@ class DomainDisplayPageQueryServiceSpec(
                         name = "name",
                         code = "code",
                         layoutType = PageLayoutType.DESKTOP_WEB
-                    ), PageRequest.of(0, 10)
+                    ),
+                    PageRequest.of(0, 10)
                 )
                 result.shouldNotBeEmpty()
             }

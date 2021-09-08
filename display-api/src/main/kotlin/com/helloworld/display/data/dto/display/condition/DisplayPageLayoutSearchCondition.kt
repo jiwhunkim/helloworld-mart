@@ -1,7 +1,5 @@
 package com.helloworld.display.data.dto.display.condition
 
-import com.helloworld.display.domain.page.DisplayPage
-import com.helloworld.display.domain.page.DisplayPageCondition
 import com.helloworld.display.domain.page.DisplayPageLayoutCondition
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.ZonedDateTime

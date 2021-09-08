@@ -24,10 +24,11 @@ class LayoutController(
 ) {
     @GetMapping("/mall/{mallId}/pages/{pageId}/layouts")
     fun index(
-        @PathVariable mallId: Long, @PathVariable pageId: Long,
+        @PathVariable mallId: Long,
+        @PathVariable pageId: Long,
         @PageableDefault(sort = ["id"], direction = Sort.Direction.DESC) @ParameterObject pageable: Pageable,
         @ParameterObject condition: DisplayPageLayoutSearchCondition
     ): Response<Page<DisplayPageLayoutDto>> {
-        return Response(displayPageLayoutApplicationService.findAll(mallId, pageId, condition, pageable));
+        return Response(displayPageLayoutApplicationService.findAll(mallId, pageId, condition, pageable))
     }
 }
