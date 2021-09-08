@@ -1,7 +1,8 @@
 package com.helloworld.display.data.dto.response
 
-import com.helloworld.display.domain.dto.DisplayProductDto
+import com.helloworld.display.domain.dto.product.DisplayProductDto
 import com.helloworld.product.domain.dto.ProductDto
+import com.helloworld.product.domain.dto.ProductOptionDto
 import java.math.BigDecimal
 
 data class DisplayProductResponseDto(
@@ -18,7 +19,7 @@ data class DisplayProductResponseDto(
     val amount: BigDecimal
 
 ) {
-    constructor(displayProduct: DisplayProductDto, product: ProductDto) : this(
+    constructor(displayProduct: DisplayProductDto, product: ProductDto, productOption: ProductOptionDto) : this(
         id = product.id,
         code = product.code,
         name = product.name,
@@ -27,8 +28,8 @@ data class DisplayProductResponseDto(
         display = displayProduct.display,
         sale = displayProduct.sale,
         soldOut = displayProduct.soldOut,
-        salesAmount = BigDecimal.ZERO,
-        discountAmount = BigDecimal.ZERO,
-        amount = BigDecimal.ZERO
+        salesAmount = productOption.salesAmount,
+        discountAmount = productOption.discountAmount,
+        amount = productOption.amount
     )
 }

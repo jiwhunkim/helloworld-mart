@@ -13,7 +13,8 @@ class ProductOption(
     sellerProduct: SellerProduct,
     salesAmount: BigDecimal,
     discountAmount: BigDecimal,
-    amount: BigDecimal
+    amount: BigDecimal = salesAmount.minus(discountAmount),
+    representative: Boolean = false
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,5 +49,8 @@ class ProductOption(
     var discountAmount: BigDecimal = discountAmount
         protected set
     var amount: BigDecimal = amount
+        protected set
+
+    var representative: Boolean = representative
         protected set
 }

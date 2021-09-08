@@ -55,7 +55,7 @@ drop table if exists product_options;
 create table product_options
 (
     id                bigint         not null auto_increment,
-    product_id bigint         not null,
+    product_id        bigint         not null,
     seller_product_id bigint         not null,
     code              varchar(128),
     name              varchar(255),
@@ -63,6 +63,7 @@ create table product_options
     sales_amount      decimal(19, 2) not null,
     discount_amount   decimal(19, 2) not null,
     amount            decimal(19, 2) not null,
+    representative    bit            not null,
     created_at        DATETIME(6) DEFAULT now(6) not null,
     created_by        VARCHAR(128)   NOT NULL DEFAULT '',
     updated_at        DATETIME(6) DEFAULT CURRENT_TIMESTAMP (6) ON UPDATE CURRENT_TIMESTAMP (6) not null,
@@ -141,5 +142,50 @@ create table display_products
     display     bit    not null,
     sale        bit    not null,
     sold_out    bit    not null,
+    primary key (id)
+) engine=InnoDB;
+
+drop table if exists display_pages;
+create table display_pages
+(
+    id          bigint      not null auto_increment,
+    mall_id     bigint      not null,
+    layout_type varchar(255),
+    code        varchar(255),
+    name        varchar(255),
+    created_at  DATETIME(6) DEFAULT now(6) not null not null,
+    created_by  VARCHAR(64) NOT NULL DEFAULT '' not null,
+    updated_at  DATETIME(6) DEFAULT CURRENT_TIMESTAMP (6) ON UPDATE CURRENT_TIMESTAMP (6) not null not null,
+    updated_by  VARCHAR(64) NOT NULL DEFAULT '' not null,
+    primary key (id)
+) engine=InnoDB;
+
+drop table if exists display_page_layouts;
+create table display_page_layouts
+(
+    id          bigint      not null auto_increment,
+    page_id     bigint      not null,
+    name        varchar(255),
+    enabled bit not null,
+    start_at    datetime,
+    end_at      datetime,
+    description varchar(255),
+    created_at  DATETIME(6) DEFAULT now(6) not null not null,
+    created_by  VARCHAR(64) NOT NULL DEFAULT '' not null,
+    updated_at  DATETIME(6) DEFAULT CURRENT_TIMESTAMP (6) ON UPDATE CURRENT_TIMESTAMP (6) not null not null,
+    updated_by  VARCHAR(64) NOT NULL DEFAULT '' not null,
+    primary key (id)
+) engine=InnoDB;
+
+drop table if exists display_page_layout_items;
+create table display_page_layout_items
+(
+    id                bigint      not null auto_increment,
+    layout_id         bigint      not null,
+    component_item_id bigint      not null,
+    created_at        DATETIME(6) DEFAULT now(6) not null not null,
+    created_by        VARCHAR(64) NOT NULL DEFAULT '' not null,
+    updated_at        DATETIME(6) DEFAULT CURRENT_TIMESTAMP (6) ON UPDATE CURRENT_TIMESTAMP (6) not null not null,
+    updated_by        VARCHAR(64) NOT NULL DEFAULT '' not null,
     primary key (id)
 ) engine=InnoDB;

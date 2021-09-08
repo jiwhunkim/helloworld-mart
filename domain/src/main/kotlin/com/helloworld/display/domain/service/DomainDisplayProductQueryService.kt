@@ -1,9 +1,8 @@
 package com.helloworld.display.domain.service
 
-import com.helloworld.display.domain.DisplayProduct
-import com.helloworld.display.domain.DisplayProductRepository
+import com.helloworld.display.domain.product.DisplayProduct
+import com.helloworld.display.domain.product.DisplayProductRepository
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
 import java.time.ZonedDateTime
 import javax.persistence.EntityNotFoundException
 
@@ -14,10 +13,10 @@ class DomainDisplayProductQueryService(
     fun findByProductId(productId: Long): DisplayProduct {
         try {
             println(ZonedDateTime.now())
-            return displayProductRepository.findByProductId(productId).orElseThrow { EntityNotFoundException() }
+            return displayProductRepository.findByProductId(productId)
+                .orElseThrow { EntityNotFoundException("productId - $productId not exist") }
         } catch (ex: EntityNotFoundException) {
-            throw NoSuchElementException()
+            throw NoSuchElementException(ex.message)
         }
-
     }
 }

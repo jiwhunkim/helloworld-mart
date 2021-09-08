@@ -1,13 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.5.0" apply false
+    id("org.springframework.boot") version "2.5.2" apply false
     id("io.spring.dependency-management") version "1.0.11.RELEASE" apply false
-    kotlin("jvm") version "1.5.0" apply false
-    kotlin("plugin.spring") version "1.5.0" apply false
-    kotlin("plugin.jpa") version "1.5.0" apply false
-    kotlin("kapt") version "1.5.0" apply false
+    kotlin("jvm") version "1.5.21" apply false
+    kotlin("plugin.spring") version "1.5.21" apply false
+    kotlin("plugin.jpa") version "1.5.21" apply false
+    kotlin("kapt") version "1.5.21" apply false
     id("org.jlleitschuh.gradle.ktlint") version "10.1.0" apply false
+    id("org.sonarqube") version "3.0" apply true
 }
 allprojects {
     group = "com.helloworld"
@@ -124,5 +125,12 @@ configure(testfixtureProjects) {
         "testFixturesImplementation"("org.testcontainers:junit-jupiter")
         "testFixturesImplementation"("org.testcontainers:mysql")
         "testFixturesImplementation"("org.testcontainers:mariadb")
+    }
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", System.getenv()["SONAR_PROJECT_KEY"] ?: "helloworld-mart")
+        property("sonar.host.url", System.getenv()["SONAR_HOST_URL"] ?: "http://localhost:9000")
     }
 }
