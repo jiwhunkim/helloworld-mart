@@ -1,15 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.5.2" apply false
-    id("io.spring.dependency-management") version "1.0.11.RELEASE" apply false
-    kotlin("jvm") version "1.5.21" apply false
-    kotlin("plugin.spring") version "1.5.21" apply false
-    kotlin("plugin.jpa") version "1.5.21" apply false
-    kotlin("kapt") version "1.5.21" apply false
-    id("org.jlleitschuh.gradle.ktlint") version "10.1.0" apply false
+    id("org.springframework.boot") version Libs.SpringBoot.version apply false
+    id("io.spring.dependency-management") version Libs.Spring.DependencyManagement.version apply false
+    kotlin("jvm") version Libs.Kotlin.version apply false
+    kotlin("plugin.spring") version Libs.Kotlin.version apply false
+    kotlin("plugin.jpa") version Libs.Kotlin.version apply false
+    kotlin("kapt") version Libs.Kotlin.version apply false
+    id("org.jlleitschuh.gradle.ktlint") version Libs.KtLint.version apply false
     id("org.sonarqube") version "3.0" apply true
 }
+
 allprojects {
     group = "com.helloworld"
     version = "0.0.1-SNAPSHOT"
@@ -44,7 +45,7 @@ subprojects {
     the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
         imports {
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR8")
-            mavenBom("org.testcontainers:testcontainers-bom:1.15.3")
+            mavenBom("org.testcontainers:testcontainers-bom:1.16.0")
         }
     }
 
@@ -82,24 +83,16 @@ var testfixtureProjects = listOf(
     project("domain-rds")
 )
 
-object kotest {
-    val version = "4.4.3"
-
-    object extension {
-        val version = "1.0.0"
-    }
-}
-
 configure(kotestProjects) {
     dependencies {
-        "testImplementation"("io.kotest:kotest-runner-junit5:${kotest.version}") // for kotest framework
-        "testImplementation"("io.kotest:kotest-assertions-core:${kotest.version}") // for kotest core jvm assertions
-        "testImplementation"("io.kotest:kotest-property:${kotest.version}") // for kotest property test
-        "testImplementation"("io.kotest.extensions:kotest-extensions-spring:${kotest.extension.version}")
-        "testImplementation"("io.kotest.extensions:kotest-extensions-testcontainers:${kotest.extension.version}")
+        "testImplementation"("io.kotest:kotest-runner-junit5:${Libs.Kotest.version}") // for kotest framework
+        "testImplementation"("io.kotest:kotest-assertions-core:${Libs.Kotest.version}") // for kotest core jvm assertions
+        "testImplementation"("io.kotest:kotest-property:${Libs.Kotest.version}") // for kotest property test
+        "testImplementation"("io.kotest.extensions:kotest-extensions-spring:${Libs.Kotest.Extension.version}")
+        "testImplementation"("io.kotest.extensions:kotest-extensions-testcontainers:${Libs.Kotest.Extension.version}")
 
         "testImplementation"("io.mockk:mockk")
-        "testImplementation"("com.ninja-squad:springmockk:3.0.1")
+        "testImplementation"("com.ninja-squad:springmockk:${Libs.SpringMockk.version}")
     }
 }
 
@@ -116,11 +109,11 @@ configure(testfixtureProjects) {
         plugin("java-test-fixtures")
     }
     dependencies {
-        "testFixturesImplementation"("io.kotest:kotest-runner-junit5:${kotest.version}") // for kotest framework
-        "testFixturesImplementation"("io.kotest:kotest-assertions-core:${kotest.version}") // for kotest core jvm assertions
-        "testFixturesImplementation"("io.kotest:kotest-property:${kotest.version}") // for kotest property test
-        "testFixturesImplementation"("io.kotest.extensions:kotest-extensions-spring:${kotest.extension.version}")
-        "testFixturesImplementation"("io.kotest.extensions:kotest-extensions-testcontainers:${kotest.extension.version}")
+        "testFixturesImplementation"("io.kotest:kotest-runner-junit5:${Libs.Kotest.version}") // for kotest framework
+        "testFixturesImplementation"("io.kotest:kotest-assertions-core:${Libs.Kotest.version}") // for kotest core jvm assertions
+        "testFixturesImplementation"("io.kotest:kotest-property:${Libs.Kotest.version}") // for kotest property test
+        "testFixturesImplementation"("io.kotest.extensions:kotest-extensions-spring:${Libs.Kotest.Extension.version}")
+        "testFixturesImplementation"("io.kotest.extensions:kotest-extensions-testcontainers:${Libs.Kotest.Extension.version}")
 
         "testFixturesImplementation"("org.testcontainers:junit-jupiter")
         "testFixturesImplementation"("org.testcontainers:mysql")
