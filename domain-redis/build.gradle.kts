@@ -38,27 +38,27 @@ tasks.jacocoTestReport {
 }
 
 sourceSets {
-    create("intTest") {
+    create("integrationTest") {
         compileClasspath += sourceSets.main.get().output + sourceSets.test.get().output
         runtimeClasspath += sourceSets.main.get().output + sourceSets.test.get().output
 
-        resources.srcDir(file("src/intTest/resources"))
+        resources.srcDir(file("src/integrationTest/resources"))
     }
 }
 
-val intTestImplementation: Configuration by configurations.getting {
+val integrationTestImplementation: Configuration by configurations.getting {
     extendsFrom(configurations.implementation.get(), configurations.testImplementation.get())
 }
 
-configurations["intTestImplementation"].extendsFrom(configurations.testImplementation.get())
-configurations["intTestRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
+configurations["integrationTestImplementation"].extendsFrom(configurations.testImplementation.get())
+configurations["integrationTestRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
 
 val integrationTest = task<Test>("integrationTest") {
     description = "Runs integration tests."
     group = "verification"
 
-    testClassesDirs = sourceSets["intTest"].output.classesDirs
-    classpath = sourceSets["intTest"].runtimeClasspath
+    testClassesDirs = sourceSets["integrationTest"].output.classesDirs
+    classpath = sourceSets["integrationTest"].runtimeClasspath
     shouldRunAfter("test")
 }
 

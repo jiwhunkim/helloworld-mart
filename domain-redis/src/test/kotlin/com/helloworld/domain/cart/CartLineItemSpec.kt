@@ -12,8 +12,6 @@ import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
 
-@DataRedisTest
-@Import(RedisConfig::class)
 @ActiveProfiles("test")
 class CartLineItemSpec : DescribeSpec() {
     init {
