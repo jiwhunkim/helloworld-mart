@@ -42,12 +42,9 @@ val bootJar: org.springframework.boot.gradle.tasks.bundling.BootJar by tasks
 bootJar.enabled = false
 jar.enabled = true
 
-tasks.test {
-    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-}
-
 tasks.jacocoTestReport {
-    dependsOn(tasks.test) // tests are required to run before generating the report
+    executionData.setFrom(fileTree(buildDir).include("/jacoco/*.exec"))
+    shouldRunAfter(tasks.test, integrationTest) // tests are required to run before generating the report
 }
 
 sourceSets {
@@ -74,4 +71,5 @@ val integrationTest = task<Test>("integrationTest") {
     classpath = sourceSets["integrationTest"].runtimeClasspath
     shouldRunAfter("test")
 }
+
 tasks.check { dependsOn(integrationTest) }
