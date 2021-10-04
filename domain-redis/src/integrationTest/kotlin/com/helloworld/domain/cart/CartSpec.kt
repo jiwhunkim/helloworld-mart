@@ -1,15 +1,19 @@
 package com.helloworld.domain.cart
 
+import com.helloworld.config.redis.config.RedisConfig
 import com.helloworld.order.domain.*
 import io.kotest.core.spec.style.DescribeSpec
-import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest
+import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
 import java.math.BigDecimal
 
+@DataRedisTest
+@Import(RedisConfig::class)
 @ActiveProfiles("test")
-class CartSpec() : DescribeSpec() {
+class CartSpec(cartRepository: CartRepository) : DescribeSpec() {
     init {
         describe("cart") {
             it("create cart no list") {
@@ -50,7 +54,10 @@ class CartSpec() : DescribeSpec() {
                 )
 
                 val cart = Cart(1L, listOf(cartLineItem, cartLineItem2))
-                cart.shouldNotBeNull()
+                val result = cartRepository.save(cart)
+                result.salesAmount.shouldBe(cartLineItem.salesAmount)
+                result.discountAmount.shouldBe(cartLineItem.discountAmount)
+                result.amount.shouldBe(cartLineItem.amount)
             }
         }
     }
