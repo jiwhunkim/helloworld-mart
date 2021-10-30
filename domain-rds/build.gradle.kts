@@ -44,32 +44,32 @@ jar.enabled = true
 
 tasks.jacocoTestReport {
     executionData.setFrom(fileTree(buildDir).include("/jacoco/*.exec"))
-    shouldRunAfter(tasks.test, integrationTest) // tests are required to run before generating the report
+    shouldRunAfter(tasks.test, intTest) // tests are required to run before generating the report
 }
 
 sourceSets {
-    create("integrationTest") {
+    create("intTest") {
         compileClasspath += sourceSets.main.get().output + sourceSets.test.get().output
         runtimeClasspath += sourceSets.main.get().output + sourceSets.test.get().output
 
-        resources.srcDir(file("src/integrationTest/resources"))
+        resources.srcDir(file("src/intTest/resources"))
     }
 }
 
-val integrationTestImplementation: Configuration by configurations.getting {
+val intTestImplementation: Configuration by configurations.getting {
     extendsFrom(configurations.implementation.get(), configurations.testImplementation.get())
 }
 
-configurations["integrationTestImplementation"].extendsFrom(configurations.testImplementation.get())
-configurations["integrationTestRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
+configurations["intTestImplementation"].extendsFrom(configurations.testImplementation.get())
+configurations["intTestRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
 
-val integrationTest = task<Test>("integrationTest") {
+val intTest = task<Test>("intTest") {
     description = "Runs integration tests."
     group = "verification"
 
-    testClassesDirs = sourceSets["integrationTest"].output.classesDirs
-    classpath = sourceSets["integrationTest"].runtimeClasspath
+    testClassesDirs = sourceSets["intTest"].output.classesDirs
+    classpath = sourceSets["intTest"].runtimeClasspath
     shouldRunAfter("test")
 }
 
-tasks.check { dependsOn(integrationTest) }
+tasks.check { dependsOn(intTest) }
