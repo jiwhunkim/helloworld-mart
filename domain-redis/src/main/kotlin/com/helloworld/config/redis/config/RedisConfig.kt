@@ -9,7 +9,6 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.StringRedisSerializer
 import org.springframework.integration.redis.util.RedisLockRegistry
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 @Configuration
 @EnableRedisRepositories(
@@ -18,8 +17,8 @@ import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 )
 class RedisConfig {
     @Bean
-    fun redisTemplate(redisConnectionFactory: RedisConnectionFactory): RedisTemplate<JvmType.Object, JvmType.Object> {
-        val template = RedisTemplate<JvmType.Object, JvmType.Object>()
+    fun redisTemplate(redisConnectionFactory: RedisConnectionFactory): RedisTemplate<*, *> {
+        val template = RedisTemplate<ByteArray, ByteArray>()
         template.setConnectionFactory(redisConnectionFactory)
         template.setDefaultSerializer(GenericJackson2JsonRedisSerializer())
         template.keySerializer = StringRedisSerializer()
