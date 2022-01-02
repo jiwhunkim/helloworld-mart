@@ -4,7 +4,6 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
-    id("jacoco")
 
     application
 }
@@ -32,44 +31,35 @@ allOpen {
     annotation("javax.persistence.MappedSuperclass")
 }
 
-jacoco {
-    toolVersion = "0.8.7"
-}
-
 val jar: Jar by tasks
 val bootJar: org.springframework.boot.gradle.tasks.bundling.BootJar by tasks
 
 bootJar.enabled = false
 jar.enabled = true
 
-tasks.jacocoTestReport {
-    executionData.setFrom(fileTree(buildDir).include("/jacoco/*.exec"))
-    shouldRunAfter(tasks.test, intTest) // tests are required to run before generating the report
-}
-
-sourceSets {
-    create("intTest") {
-        compileClasspath += sourceSets.main.get().output + sourceSets.test.get().output
-        runtimeClasspath += sourceSets.main.get().output + sourceSets.test.get().output
-
-        resources.srcDir(file("src/intTest/resources"))
-    }
-}
-
-val intTestImplementation: Configuration by configurations.getting {
-    extendsFrom(configurations.implementation.get(), configurations.testImplementation.get())
-}
-
-configurations["intTestImplementation"].extendsFrom(configurations.testImplementation.get())
-configurations["intTestRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
-
-val intTest = task<Test>("intTest") {
-    description = "Runs integration tests."
-    group = "verification"
-
-    testClassesDirs = sourceSets["intTest"].output.classesDirs
-    classpath = sourceSets["intTest"].runtimeClasspath
-    shouldRunAfter("test")
-}
-
-tasks.check { dependsOn(intTest) }
+//sourceSets {
+//    create("intTest") {
+//        compileClasspath += sourceSets.main.get().output + sourceSets.test.get().output
+//        runtimeClasspath += sourceSets.main.get().output + sourceSets.test.get().output
+//
+//        resources.srcDir(file("src/intTest/resources"))
+//    }
+//}
+//
+//val intTestImplementation: Configuration by configurations.getting {
+//    extendsFrom(configurations.implementation.get(), configurations.testImplementation.get())
+//}
+//
+//configurations["intTestImplementation"].extendsFrom(configurations.testImplementation.get())
+//configurations["intTestRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
+//
+//val intTest = task<Test>("intTest") {
+//    description = "Runs integration tests."
+//    group = "verification"
+//
+//    testClassesDirs = sourceSets["intTest"].output.classesDirs
+//    classpath = sourceSets["intTest"].runtimeClasspath
+//    shouldRunAfter("test")
+//}
+//
+//tasks.check { dependsOn(intTest) }

@@ -3,15 +3,21 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version Libs.SpringBoot.version apply false
     id("io.spring.dependency-management") version Libs.Spring.DependencyManagement.version apply false
-    kotlin("jvm") version Libs.Kotlin.version apply false
+    kotlin("jvm") version Libs.Kotlin.version apply true
     kotlin("plugin.spring") version Libs.Kotlin.version apply false
     kotlin("plugin.jpa") version Libs.Kotlin.version apply false
     kotlin("kapt") version Libs.Kotlin.version apply false
     id("org.jlleitschuh.gradle.ktlint") version Libs.KtLint.version apply false
     id("org.sonarqube") version "3.0" apply true
+    jacoco
 }
 
 allprojects {
+    repositories {
+        mavenCentral()
+        maven("https://kotlin.bintray.com/kotlinx/")
+    }
+
     group = "com.helloworld"
     version = "0.0.1-SNAPSHOT"
 
@@ -28,11 +34,6 @@ allprojects {
 }
 
 subprojects {
-    repositories {
-        mavenCentral()
-        maven("https://kotlin.bintray.com/kotlinx/")
-    }
-
     apply {
         plugin("io.spring.dependency-management")
         plugin("org.springframework.boot")
@@ -40,6 +41,7 @@ subprojects {
         plugin("kotlin-kapt")
         plugin("java")
         plugin("org.jlleitschuh.gradle.ktlint")
+        plugin("jacoco")
     }
 
     the<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension>().apply {
@@ -63,6 +65,31 @@ subprojects {
         disabledRules.add("no-wildcard-imports")
     }
 
+    configure<JacocoPluginExtension> {
+        toolVersion = "0.8.7"
+    }
+
+    tasks.withType<JacocoReport> {
+        reports {
+            html.isEnabled = true
+            xml.isEnabled = true
+            csv.isEnabled = false
+        }
+    }
+
+    tasks.withType<JacocoCoverageVerification> {
+        violationRules {
+            rule {
+                element = "BUNDLE"
+
+                limit {
+                    counter = "BRANCH"
+                    value = "COVEREDRATIO"
+                    minimum = "0.0".toBigDecimal()
+                }
+            }
+        }
+    }
 }
 
 var kotestProjects = listOf(
@@ -82,6 +109,42 @@ var testfixtureProjects = listOf(
     project("domain-redis"),
     project("domain-rds")
 )
+
+var intTestProjects = kotestProjects
+
+configure(intTestProjects) {
+    sourceSets {
+        create("intTest") {
+            compileClasspath += sourceSets.main.get().output + sourceSets.test.get().output
+            runtimeClasspath += sourceSets.main.get().output + sourceSets.test.get().output
+
+            resources.srcDir(file("src/intTest/resources"))
+        }
+    }
+
+    val intTestImplementation: Configuration by configurations.getting {
+        extendsFrom(configurations.implementation.get(), configurations.testImplementation.get())
+    }
+
+    configurations["intTestImplementation"].extendsFrom(configurations.testImplementation.get())
+    configurations["intTestRuntimeOnly"].extendsFrom(configurations.runtimeOnly.get())
+
+    val intTest = task<Test>("intTest") {
+        description = "Runs integration tests."
+        group = "verification"
+
+        testClassesDirs = sourceSets["intTest"].output.classesDirs
+        classpath = sourceSets["intTest"].runtimeClasspath
+        shouldRunAfter("test")
+    }
+
+    tasks.check { dependsOn(intTest) }
+
+    tasks.jacocoTestReport {
+        executionData.setFrom(fileTree(buildDir).include("/jacoco/*.exec"))
+        shouldRunAfter(tasks.test, tasks.findByName("intTest")) // tests are required to run before generating the report
+    }
+}
 
 configure(kotestProjects) {
     dependencies {
@@ -125,5 +188,27 @@ sonarqube {
     properties {
         property("sonar.projectKey", System.getenv()["SONAR_PROJECT_KEY"] ?: "helloworld-mart")
         property("sonar.host.url", System.getenv()["SONAR_HOST_URL"] ?: "http://localhost:9000")
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+task<JacocoReport>("jacocoRootReport") {
+    dependsOn(subprojects.map { it.tasks.withType<JacocoReport>() })
+    sourceDirectories.setFrom(subprojects.map { it.tasks.findByName("jacocoTestReport")!!.property("sourceDirectories") })
+    classDirectories.setFrom(subprojects.map { it.tasks.findByName("jacocoTestReport")!!.property("classDirectories") })
+    executionData.setFrom(
+        project.fileTree(".") {
+            include("**/build/jacoco/**.exec")
+        }
+    )
+    onlyIf {
+        true
+    }
+    reports {
+        xml.isEnabled = true
+        html.isEnabled = true
     }
 }
